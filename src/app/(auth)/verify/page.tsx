@@ -1,5 +1,6 @@
 import { VerifyForm } from "../../../components/auth/verify-form"
 import Image from "next/image"
+import { Suspense } from "react"
 
 export default function VerifyPage() {
   return (
@@ -15,7 +16,9 @@ export default function VerifyPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
-            <VerifyForm />
+            <Suspense fallback={<div className="text-center py-4 text-sm text-[#2C2621]">Loading...</div>}>
+              <VerifyForm />
+            </Suspense>
           </div>
         </div>
       </div>
