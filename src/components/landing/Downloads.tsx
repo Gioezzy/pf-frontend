@@ -37,14 +37,14 @@ export function Downloads() {
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <a href="/dokumen/surat-keorisinalitasan.docx" download>
+              <a href="/docs/surat-keorisinalitasan.docx" download>
                 <Button className="w-full rounded-full border-none bg-[#5C7C99] px-8 py-6 text-base font-medium text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-[#49657E] sm:w-auto">
                   <Download className="mr-2 h-5 w-5" />
                   Surat Keorisinalitasan
                 </Button>
               </a>
 
-              <a href="/dokumen/template-kartu-peserta.docx" download>
+              <a href="/docs/template-kartu-peserta.docx" download>
                 <Button
                   variant="outline"
                   className="w-full rounded-full border-slate-200/60 bg-white px-8 py-6 text-base font-medium text-[#2C2621] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#F7F5F0] sm:w-auto"
