@@ -32,7 +32,7 @@ const TIMELINE_EVENTS = [
     id: 5,
     title: "Final & Penutupan",
     date: "25 Oktober 2026",
-    description: "Babak final untuk cabang tertentu, pengumuman juara, serta upacara penutupan Physics Festival 2026.",
+    description: "Babak final untuk cabang tertentu, pengumuman juara, serta upacara penutupan Physics Festival XXV.",
   },
 ];
 

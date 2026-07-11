@@ -20,8 +20,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Physics Festival 2026",
-    default: "Physics Festival 2026",
+    template: "%s | Physics Festival XXV",
+    default: "Physics Festival XXV",
   },
   description: "Platform resmi untuk pendaftaran dan manajemen perlombaan Physics Festival",
 }

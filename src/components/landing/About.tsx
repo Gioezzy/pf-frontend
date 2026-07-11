@@ -80,7 +80,7 @@ export function About() {
             Menyatukan Visi Kosmik & Bumi yang Berkelanjutan
           </h2>
           <p className="text-lg text-slate-700 leading-relaxed">
-            Physics Festival 2026 adalah ajang kompetisi dan perayaan sains tahunan yang diusung oleh HIMAFI Universitas Andalas. Dengan tema <span className="font-bold text-[#2C2621]">"Cosmic Odyssey: Exploring the Boundaries of Space and Time"</span>, kami bertujuan menciptakan ruang bagi inovator muda.
+            Physics Festival XXV adalah ajang kompetisi dan perayaan sains tahunan yang diusung oleh HIMAFI Universitas Andalas. Dengan tema <span className="font-bold text-[#2C2621]">"Cosmic Odyssey: Exploring the Boundaries of Space and Time"</span>, kami bertujuan menciptakan ruang bagi inovator muda.
           </p>
         </motion.div>
 

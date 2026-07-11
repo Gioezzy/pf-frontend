@@ -109,7 +109,7 @@ export function Hero() {
                 Jelajahi Lomba
               </Button>
             </Link>
-            <Link href="/docs/guidebook.pdf" target="_blank" className="w-full sm:w-auto">
+            <Link href="https://drive.google.com/drive/folders/1BGzJoy1puJccn7c0vo_2CLMumKZfPnGK" target="_blank" className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto bg-transparent border-[#5C7C99] hover:bg-[#5C7C99]/20 text-white rounded-full px-8 py-6 text-lg font-semibold hover:-translate-y-1 transition-all duration-300">
                 Unduh Guide Book
               </Button>
