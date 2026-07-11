@@ -74,7 +74,7 @@ export function FlipCard({ competition }: FlipCardProps) {
 
   return (
     <div
-      className="relative w-[280px] sm:w-[320px] shrink-0 h-[450px] [perspective:1000px] cursor-pointer"
+      className="relative w-full max-w-[340px] mx-auto h-[450px] [perspective:1000px] cursor-pointer"
       onPointerEnter={(e) => {
         // Hanya aktifkan hover jika menggunakan mouse desktop
         if (e.pointerType === "mouse") setIsHovered(true);
