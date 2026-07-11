@@ -12,7 +12,10 @@ import { DeleteCompetitionDialog } from "./_components/delete-competition-dialog
 import { EditCompetitionDialog } from "./_components/edit-competition-dialog"
 import { useCompetitions } from "./_hooks/use-competitions"
 import { useDeleteCompetition } from "./_hooks/use-delete-competition"
+import { useImportCompetitions } from "./_hooks/use-import-competitions"
 import type { Competition } from "./_types"
+import { useRef } from "react"
+import { UploadIcon } from "lucide-react"
 
 export default function CompetitionsPage() {
   const { competitions, isLoading, refetch } = useCompetitions()
@@ -28,6 +31,9 @@ export default function CompetitionsPage() {
     isDeleting,
     confirmDelete,
   } = useDeleteCompetition(handleSilentRefresh)
+
+  const { isImporting, handleImport } = useImportCompetitions(handleSilentRefresh)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [editingCompetition, setEditingCompetition] = useState<Competition | null>(null)
@@ -45,10 +51,27 @@ export default function CompetitionsPage() {
             Kelola katalog lomba beserta gelombang pendaftarannya.
           </p>
         </div>
-        <Button onClick={() => setIsCreateOpen(true)}>
-          <PlusIcon className="size-4" />
-          Tambah Lomba
-        </Button>
+        <div className="flex items-center gap-2">
+          <input 
+            type="file" 
+            accept=".json" 
+            className="hidden" 
+            ref={fileInputRef} 
+            onChange={handleImport}
+          />
+          <Button 
+            variant="outline" 
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isImporting}
+          >
+            <UploadIcon className="size-4 mr-2" />
+            {isImporting ? "Mengimpor..." : "Import JSON"}
+          </Button>
+          <Button onClick={() => setIsCreateOpen(true)}>
+            <PlusIcon className="size-4 mr-2" />
+            Tambah Lomba
+          </Button>
+        </div>
       </div>
 
       {/* Implementasi Tabs UI */}
