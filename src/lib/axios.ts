@@ -68,10 +68,18 @@ api.interceptors.response.use(
         const isPublicPage = path === '/';
         
         if (!isOnAuthPage && !isPublicPage) {
+          // Bersihkan cookie/storage lokal jika ada sebagai fallback (jika endpoint gagal)
+          document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          
           // Panggil API internal Next.js untuk menghancurkan cookie HttpOnly
-          await fetch('/api/auth/clear', { method: 'POST' });
-          // Setelah cookie benar-benar hancur, baru arahkan ke login
-          window.location.href = '/login';
+          try {
+            await fetch('/api/auth/clear', { method: 'POST' });
+          } catch (e) {
+            // Abaikan jika gagal
+          }
+          
+          // Setelah cookie benar-benar hancur, baru arahkan ke login dengan parameter
+          window.location.href = '/login?session_expired=true';
         }
       }
     }

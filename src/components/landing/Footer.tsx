@@ -126,8 +126,22 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Embedded Google Maps */}
-        <div className="mb-12 w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden border border-white/10 shadow-xl relative z-10">
+        {/* Embedded Google Maps dengan Fallback UI jika diblokir AdBlocker */}
+        <div className="mb-12 w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden border border-white/10 shadow-xl relative z-10 bg-[#1a1613] flex items-center justify-center">
+          
+          {/* Fallback Text yang terlihat jika iframe diblokir atau gagal dimuat */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 z-0">
+            <p className="text-slate-400 mb-2 text-sm md:text-base">Peta tidak dapat dimuat (mungkin diblokir oleh ekstensi Privasi/AdBlocker).</p>
+            <a 
+              href="https://maps.google.com/?q=Universitas+Andalas" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-[#EABF6A] underline text-sm hover:text-white transition-colors"
+            >
+              Buka langsung di Google Maps
+            </a>
+          </div>
+
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15957.251390497576!2d100.44686255169624!3d-0.9122501007817478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4b7b30db434df%3A0xc3e655cf31c360b9!2sUniversitas%20Andalas!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" 
             width="100%" 
@@ -137,7 +151,7 @@ export function Footer() {
             loading="lazy" 
             referrerPolicy="no-referrer-when-downgrade"
             title="Peta Lokasi Universitas Andalas"
-            className="w-full h-full"
+            className="w-full h-full relative z-10"
           ></iframe>
         </div>
 
