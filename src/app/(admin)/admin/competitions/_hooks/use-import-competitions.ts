@@ -27,9 +27,10 @@ export function useImportCompetitions(onImported: () => void) {
         
         toast.success(`Import selesai! ${result.imported} ditambahkan, ${result.skipped} dilewati (sudah ada).`)
         onImported()
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Gagal import competitions:", error)
-        toast.error(error.message || "Gagal import competitions. Pastikan format JSON valid.")
+        const message = error instanceof Error ? error.message : "Gagal import competitions. Pastikan format JSON valid."
+        toast.error(message)
       } finally {
         setIsImporting(false)
         // Reset the input value so the same file can be selected again

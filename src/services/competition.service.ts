@@ -81,7 +81,7 @@ export async function updateWave(
 
 /** (Khusus role ADMIN) Import array JSON perlombaan. */
 export async function importCompetitions(
-  payload: any[],
+  payload: CreateCompetitionPayload[],
 ): Promise<{ imported: number; skipped: number }> {
   const { data } = await api.post<{ imported: number; skipped: number }>(
     '/competitions/import',

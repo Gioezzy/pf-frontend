@@ -349,26 +349,31 @@ function DetailModal({ registration, onClose, competitionName }: { registration:
                   <div className="bg-white border border-gray-100 rounded-xl p-4">
                     <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider">Anggota Lainnya</p>
                     <div className="flex flex-col gap-4">
-                      {members.map((m: any, i: number) => {
-                        const memberName = m.name || m.participantName || m;
+                      {members.map((m: { name?: string | null; participantName?: string | null; avatar?: string | null; email?: string | null; phone?: string | null; } | string, i: number) => {
+                        const isString = typeof m === 'string';
+                        const memberName = isString ? m : (m.name || m.participantName || "");
+                        const avatar = isString ? "" : (m.avatar || "");
+                        const email = isString ? "" : (m.email || "");
+                        const phone = isString ? "" : (m.phone || "");
+
                         return (
                         <div key={i} className="flex gap-3 items-start pb-4 border-b border-gray-50 last:border-0 last:pb-0">
                           <Avatar className="size-9 border border-gray-100">
-                            <AvatarImage src={m.avatar || ""} />
+                            <AvatarImage src={avatar} />
                             <AvatarFallback className="bg-gray-100 text-gray-600 text-xs">{memberName.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col gap-1 min-w-0">
                             <p className="text-sm font-medium text-gray-800 truncate">{memberName}</p>
-                            {m.email && (
+                            {email && (
                               <div className="flex items-center gap-1.5 text-xs text-gray-500">
                                 <MailIcon className="size-3 text-gray-400 shrink-0" />
-                                <span className="truncate">{m.email}</span>
+                                <span className="truncate">{email}</span>
                               </div>
                             )}
-                            {m.phone && (
+                            {phone && (
                               <div className="flex items-center gap-1.5 text-xs text-gray-500">
                                 <PhoneIcon className="size-3 text-gray-400 shrink-0" />
-                                <span>{m.phone}</span>
+                                <span>{phone}</span>
                               </div>
                             )}
                           </div>
