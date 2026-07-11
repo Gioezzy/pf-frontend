@@ -6,6 +6,7 @@ import { isAxiosError } from "axios";
 import { userService } from "@/src/services";
 import type { User } from "@/src/types/auth.types";
 import { usePathname } from "next/navigation";
+import Cookies from "js-cookie"; // Contoh jika Anda pakai cookies, ubah sesuai implementasi
 
 interface UserContextType {
   profile: User | null;
@@ -25,7 +26,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let isMounted = true;
+    
     async function loadProfile() {
+      const token = typeof window !== "undefined" ? localStorage.getItem('accessToken') : null;
+
+      if (!token) {
+        if (isMounted) {
+          setProfile(null);
+          setIsLoading(false);
+        }
+        return;
+      }
+
       setIsLoading(true);
       try {
         const data = await userService.getMyProfile();
@@ -38,8 +50,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
       } catch (error) {
         if (isAxiosError(error) && error.response?.status === 401) {
-          // Normal if the user doesn't have a valid token
           if (isMounted) setProfile(null);
+          if (typeof window !== "undefined") localStorage.removeItem('accessToken');
         } else {
           console.error("Gagal memuat profil:", error);
           if (pathname !== "/login" && pathname !== "/register") {
@@ -51,7 +63,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
       }
     }
     
-    // Only fetch if not on auth pages
     if (pathname && !pathname.startsWith('/login') && !pathname.startsWith('/register') && !pathname.startsWith('/verify') && !pathname.startsWith('/forgot-password') && !pathname.startsWith('/reset-password')) {
       void loadProfile();
     } else {
