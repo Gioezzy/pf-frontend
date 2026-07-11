@@ -107,6 +107,7 @@ export function FlipCard({ competition }: FlipCardProps) {
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-contain drop-shadow-[0_4px_8px_rgba(44,38,33,0.15)]"
+                priority
               />
             )}
           </div>
@@ -119,6 +120,7 @@ export function FlipCard({ competition }: FlipCardProps) {
                 alt="Velune Mascot" 
                 fill
                 className="object-contain drop-shadow-sm"
+                priority
               />
             </div>
           )}

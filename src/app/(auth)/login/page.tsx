@@ -28,9 +28,9 @@ export default function LoginPage() {
             src="/mascot/velune.png"
             alt="Velune Mascot"
             fill
+            priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain drop-shadow-[0_0_30px_rgba(234,191,106,0.15)] animate-[float_6s_ease-in-out_infinite]"
-            priority
           />
         </div>
         <div className="mt-8 text-center text-[#F7F5F0] relative z-10 max-w-md">

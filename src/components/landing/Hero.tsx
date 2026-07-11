@@ -62,6 +62,7 @@ export function Hero() {
           <Image 
             src="/mascot/velune.png" 
             alt="Velune Mascot" 
+            priority
             width={300} 
             height={400}
             className="w-32 sm:w-40 md:w-56 lg:w-72 h-auto drop-shadow-[0_0_30px_rgba(234,191,106,0.4)]"
