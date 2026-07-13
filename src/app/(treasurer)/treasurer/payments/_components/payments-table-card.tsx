@@ -290,12 +290,26 @@ export function PaymentsTableCard({
                             Kartu Pelajar / KTS ({attempt.identityCardUrls.length} File)
                           </p>
                           <div className="flex flex-wrap gap-4">
-                            {attempt.identityCardUrls.map((url, i) => (
-                              <div key={i} className="flex flex-col items-center gap-2 bg-background rounded-md p-2 border">
-                                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">File {i+1}</span>
-                                <img src={url} alt={`Kartu Pelajar ${i+1}`} className="max-h-[30vh] rounded-md object-contain" />
-                              </div>
-                            ))}
+                            {attempt.identityCardUrls.map((url, i) => {
+                              const participants = [];
+                              if (selectedPayment.registration.teamName) {
+                                participants.push({ label: `Ketua (${selectedPayment.registration.participantName})` });
+                                selectedPayment.registration.members?.forEach((m, idx) => {
+                                  participants.push({ label: `Anggota ${idx + 1} (${m.name})` });
+                                });
+                              } else {
+                                participants.push({ label: `Peserta (${selectedPayment.registration.participantName})` });
+                              }
+                              
+                              const label = participants[i]?.label || `File ${i+1}`;
+                              
+                              return (
+                                <div key={i} className="flex flex-col items-center gap-2 bg-background rounded-md p-2 border">
+                                  <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">{label}</span>
+                                  <img src={url} alt={`Kartu Pelajar ${label}`} className="max-h-[30vh] rounded-md object-contain" />
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       )}
