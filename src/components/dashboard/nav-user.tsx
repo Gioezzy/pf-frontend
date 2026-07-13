@@ -66,7 +66,6 @@ export function NavUser({
           // console.error("Gagal memanggil endpoint clear cookie lokal", err);
         }
 
-        document.cookie = "x-csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
         toast.success("Berhasil log out.", { id: loadingId });

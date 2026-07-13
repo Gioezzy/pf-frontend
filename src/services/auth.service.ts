@@ -1,5 +1,5 @@
 // src/services/auth.service.ts
-import api from '../lib/axios';
+import api, { fetchCsrfToken } from '../lib/axios';
 import type {
   AuthResponse,
   CurrentUserPayload,
@@ -33,6 +33,7 @@ export async function login(
   payload: LoginPayload,
 ): Promise<AuthResponse> {
   const { data } = await api.post<AuthResponse>('/auth/login', payload);
+  await fetchCsrfToken();
   return data;
 }
 
@@ -104,6 +105,20 @@ export async function resetPassword(
  * Backend akan membalas dengan instruksi (header) yang menghancurkan cookie sesi di browser.
  */
 export async function logout(): Promise<{ message: string }> {
-  const { data } = await api.post<{ message: string }>('/auth/logout');
+  try {
+    const { data } = await api.post<{ message: string }>('/auth/logout');
+    await fetchCsrfToken();
+    return data;
+  } catch (error) {
+    await fetchCsrfToken();
+    throw error;
+  }
+}
+
+/**
+ * Resend OTP untuk pendaftaran.
+ */
+export async function resendOtp(email: string): Promise<{ message: string }> {
+  const { data } = await api.post<{ message: string }>('/auth/resend-otp', { email });
   return data;
 }
