@@ -7,7 +7,7 @@ import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
-import { verifyEmail } from "../../services/auth.service";
+import { verifyEmail, resendOtp } from "../../services/auth.service";
 
 export function VerifyForm({
   className,
@@ -18,11 +18,38 @@ export function VerifyForm({
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState(0);
 
   useEffect(() => {
     const emailParam = searchParams.get("email");
     if (emailParam) setEmail(emailParam);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
+
+  const handleResendOtp = async () => {
+    if (countdown > 0 || !email) return;
+    setIsLoading(true);
+    setError(null);
+    try {
+      await resendOtp(email);
+      toast.success("OTP berhasil dikirim ulang. Silakan cek email Anda.");
+      setCountdown(30);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Gagal mengirim ulang OTP.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -103,6 +130,23 @@ export function VerifyForm({
             className="text-center tracking-[0.5em] font-bold text-lg bg-white border-[#5C7C99]/30 focus:border-[#5C7C99] focus:ring-[#5C7C99]"
           />
         </Field>
+
+        <div className="text-center text-sm">
+          <span className="text-muted-foreground">Belum menerima OTP? </span>
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            disabled={countdown > 0 || isLoading}
+            className={cn(
+              "font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              countdown > 0 
+                ? "text-muted-foreground cursor-not-allowed" 
+                : "text-primary hover:text-primary/80 underline underline-offset-4"
+            )}
+          >
+            {countdown > 0 ? `Kirim ulang (${countdown}s)` : "Kirim ulang OTP"}
+          </button>
+        </div>
 
         <Field className="mt-2">
           <Button type="submit" className="w-full bg-[#5C7C99] hover:bg-[#49657E] text-white rounded-md font-semibold" disabled={isLoading}>
