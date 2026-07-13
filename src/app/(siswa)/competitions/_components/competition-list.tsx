@@ -47,7 +47,7 @@ export function CompetitionList({
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {competitions.map((competition) => (
-        <Card key={competition.id} className="flex flex-col h-full group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+        <Card key={competition.id} className="flex flex-col h-full group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
           <CardHeader>
             <div className="flex items-start justify-between gap-2">
               <CardTitle className="text-base">{competition.name}</CardTitle>

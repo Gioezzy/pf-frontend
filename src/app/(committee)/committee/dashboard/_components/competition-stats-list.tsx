@@ -49,7 +49,7 @@ export function CompetitionStatsList({
       {competitions.map((competition) => {
         const stat = stats[competition.id ?? ""];
         return (
-          <Card key={competition.id} className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#E7A93C]/30 hover:bg-card">
+          <Card key={competition.id} className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#E7A93C]/30 hover:bg-card">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-2">
                 <CardTitle className="text-base group-hover:text-[#E7A93C] transition-colors">{competition.name}</CardTitle>

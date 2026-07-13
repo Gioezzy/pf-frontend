@@ -6,6 +6,7 @@ import { CheckCircleIcon, EyeIcon, XCircleIcon, ReceiptIcon, MailIcon, PhoneIcon
 import { Badge } from "@/src/components/ui/badge"
 import { Button } from "@/src/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
+import { FilePreviewDialog } from "@/src/components/ui/file-preview-dialog"
 import {
   Card,
   CardContent,
@@ -47,6 +48,7 @@ export function PaymentsTableCard({
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null)
   const [rejectingId, setRejectingId] = useState<string | null>(null)
   const [rejectReason, setRejectReason] = useState("")
+  const [previewFile, setPreviewFile] = useState<{ url: string; name: string } | null>(null)
 
   const formatRupiah = (amount: number) =>
     new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(amount)
@@ -159,7 +161,7 @@ export function PaymentsTableCard({
           </DialogHeader>
           <div className="flex flex-col gap-6 py-4">
             {selectedPayment && (
-              <div className="bg-white border border-gray-100 rounded-xl p-4 flex flex-col md:flex-row gap-6 items-start shadow-sm">
+              <div className="bg-white border border-gray-100 rounded-none p-4 flex flex-col md:flex-row gap-6 items-start shadow-sm">
                 <div className="flex-1 w-full space-y-4">
                   <div>
                     <p className="text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wider">Informasi Pendaftar</p>
@@ -264,7 +266,7 @@ export function PaymentsTableCard({
             {selectedPayment?.paymentAttempts && selectedPayment.paymentAttempts.length > 0 ? (
               <div className="grid gap-6">
                 {selectedPayment.paymentAttempts.map((attempt, index) => (
-                  <div key={attempt.id} className="border rounded-lg p-4 space-y-3 bg-muted/20">
+                  <div key={attempt.id} className="border rounded-none p-4 space-y-3 bg-muted/20">
                     <div className="flex items-center justify-between">
                       <span className="font-semibold text-sm">
                         Percobaan {selectedPayment.paymentAttempts!.length - index}
@@ -279,8 +281,11 @@ export function PaymentsTableCard({
                     <div className="flex flex-col gap-4">
                       <div>
                         <p className="text-xs font-semibold text-muted-foreground mb-2">Bukti Pembayaran</p>
-                        <div className="flex justify-center bg-background rounded-md p-2 border">
-                          <img src={attempt.proofOfPaymentUrl} alt="Bukti Pembayaran" className="max-h-[40vh] rounded-md object-contain" />
+                        <div 
+                          className="flex justify-center bg-background rounded-none p-2 border cursor-pointer hover:bg-muted/50 transition-colors"
+                          onClick={() => setPreviewFile({ url: attempt.proofOfPaymentUrl, name: `Bukti Pembayaran - Percobaan ${selectedPayment.paymentAttempts!.length - index}` })}
+                        >
+                          <img src={attempt.proofOfPaymentUrl} alt="Bukti Pembayaran" className="max-h-[40vh] rounded-none object-contain" />
                         </div>
                       </div>
                       
@@ -304,9 +309,13 @@ export function PaymentsTableCard({
                               const label = participants[i]?.label || `File ${i+1}`;
                               
                               return (
-                                <div key={i} className="flex flex-col items-center gap-2 bg-background rounded-md p-2 border">
+                                <div 
+                                  key={i} 
+                                  className="flex flex-col items-center gap-2 bg-background rounded-none p-2 border cursor-pointer hover:bg-muted/50 transition-colors"
+                                  onClick={() => setPreviewFile({ url, name: `Kartu Pelajar - ${label}` })}
+                                >
                                   <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">{label}</span>
-                                  <img src={url} alt={`Kartu Pelajar ${label}`} className="max-h-[30vh] rounded-md object-contain" />
+                                  <img src={url} alt={`Kartu Pelajar ${label}`} className="max-h-[30vh] rounded-none object-contain" />
                                 </div>
                               );
                             })}
@@ -328,8 +337,12 @@ export function PaymentsTableCard({
             ) : (
               <div className="flex justify-center p-4">
                 {selectedPayment?.proofUrl ? (
-                  <img src={selectedPayment.proofUrl} alt="Bukti Pembayaran" className="max-h-[60vh] rounded-md object-contain border" />
-                ) : (
+                <div 
+                  className="flex justify-center bg-gray-50/50 p-2 cursor-pointer hover:bg-muted/50 transition-colors"
+                  onClick={() => setPreviewFile({ url: selectedPayment.proofUrl!, name: 'Bukti Pembayaran (Lama)' })}
+                >
+                  <img src={selectedPayment.proofUrl} alt="Bukti Pembayaran" className="max-h-[60vh] rounded-none object-contain border" />
+                </div>) : (
                   <p className="text-muted-foreground">Tidak ada bukti pembayaran</p>
                 )}
               </div>
@@ -357,6 +370,13 @@ export function PaymentsTableCard({
           </div>
         </DialogContent>
       </Dialog>
+
+      <FilePreviewDialog 
+        isOpen={!!previewFile}
+        onClose={() => setPreviewFile(null)}
+        fileUrl={previewFile?.url || null}
+        fileName={previewFile?.name}
+      />
     </>
   )
 }

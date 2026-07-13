@@ -18,6 +18,7 @@ import { Label } from "@/src/components/ui/label";
 import { Input } from "@/src/components/ui/input";
 import { MessageCircle, CheckCircle2, Download, FileText } from "lucide-react";
 import { AxiosError } from "axios";
+import { FilePreviewDialog } from "@/src/components/ui/file-preview-dialog";
 
 export function RegistrationList({
   registrations,
@@ -30,6 +31,7 @@ export function RegistrationList({
 }) {
   const [uploadingId, setUploadingId] = useState<string | null>(null);
   const [filesToUpload, setFilesToUpload] = useState<Record<string, { payment?: File; identity?: File[] }>>({});
+  const [previewFile, setPreviewFile] = useState<{ url: string; name: string; } | null>(null);
   const { profile } = useProfileContext();
   const userId = profile?.id;
 
@@ -57,10 +59,6 @@ export function RegistrationList({
       return;
     }
     
-    // For teams, we can check if the number of files matches the number of members
-    // but the backend only requires array of files. We'll pass the valid ones.
-    // We will validate length on the UI before allowing submit.
-
     setUploadingId(id);
     try {
       await registrationService.uploadPaymentProof(id, files.payment, validIdentityFiles as File[]);
@@ -101,7 +99,7 @@ export function RegistrationList({
   return (
     <div className="grid grid-cols-1 gap-4">
       {registrations.map((reg) => (
-        <Card key={reg.id} className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card flex flex-col md:flex-row justify-between overflow-hidden">
+        <Card key={reg.id} className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card flex flex-col md:flex-row justify-between overflow-hidden">
           <div className="flex-1 flex flex-col p-6">
             <CardHeader className="p-0">
               <div className="flex items-center gap-2">
@@ -128,7 +126,7 @@ export function RegistrationList({
                     <p className="font-semibold mb-2 text-xs uppercase tracking-wider text-muted-foreground">Riwayat Unggah Bukti</p>
                     <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
                       {reg.paymentAttempts.map((attempt, index) => (
-                        <div key={attempt.id} className="bg-muted/30 p-3 rounded-md border text-xs">
+                        <div key={attempt.id} className="bg-muted/30 p-3 rounded-none border text-xs">
                           <div className="flex justify-between items-center mb-1">
                             <span className="font-medium text-foreground">
                               Percobaan {reg.paymentAttempts.length - index}
@@ -142,15 +140,15 @@ export function RegistrationList({
                           </div>
                           <div className="text-muted-foreground flex flex-col gap-1 mt-2">
                             <p>Waktu: {new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(attempt.uploadedAt))}</p>
-                            <a href={attempt.proofOfPaymentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline w-fit">
+                            <button onClick={() => setPreviewFile({ url: attempt.proofOfPaymentUrl, name: 'Bukti Pembayaran' })} className="text-blue-500 hover:underline w-fit text-left">
                               Lihat Bukti Pembayaran
-                            </a>
+                            </button>
                             {attempt.identityCardUrls && attempt.identityCardUrls.length > 0 && (
                               <div className="flex flex-col gap-1 mt-1">
                                 {attempt.identityCardUrls.map((url, i) => (
-                                  <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline w-fit">
+                                  <button key={i} onClick={() => setPreviewFile({ url, name: `Kartu Pelajar - Anggota ${i+1}` })} className="text-blue-500 hover:underline w-fit text-left">
                                     Lihat Kartu Pelajar {attempt.identityCardUrls!.length > 1 ? `Anggota ${i+1}` : ''}
-                                  </a>
+                                  </button>
                                 ))}
                               </div>
                             )}
@@ -207,7 +205,7 @@ export function RegistrationList({
                     </Label>
                     <div className="space-y-3">
                       {participants.map((p, idx) => (
-                        <div key={p.id} className="flex flex-col gap-1.5 p-2 border rounded-md bg-white">
+                        <div key={p.id} className="flex flex-col gap-1.5 p-2 border rounded-none bg-white">
                           <Label htmlFor={`identity-${reg.id}-${idx}`} className="text-[10px] font-medium text-primary">
                             {p.label}
                           </Label>
@@ -246,10 +244,9 @@ export function RegistrationList({
                   Pembayaran Terverifikasi
                 </div>
                 {reg.whatsappGroupUrl && (
-                  <a
-                    href={reg.whatsappGroupUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => window.open(reg.whatsappGroupUrl!, '_blank')}
+                    className="w-full"
                   >
                     <Button
                       variant="outline"
@@ -258,39 +255,39 @@ export function RegistrationList({
                       <MessageCircle className="h-4 w-4" />
                       Gabung Grup WhatsApp Lomba
                     </Button>
-                  </a>
+                  </button>
                 )}
                 <div className="flex flex-col gap-2 mt-2 pt-2 border-t">
                   <p className="text-xs text-muted-foreground font-medium mb-1">Dokumen Peserta:</p>
-                  <a href="/docs/kartu_peserta.pdf" download>
+                  <button onClick={() => setPreviewFile({ url: "/docs/kartu_peserta.pdf", name: "Kartu Peserta" })}>
                     <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                       <Download className="h-3.5 w-3.5" />
                       Unduh Kartu Peserta
                     </Button>
-                  </a>
+                  </button>
                   {reg.competitionName?.toLowerCase().includes("lkti") && (
-                    <a href="/docs/Galaxy_Research_Odyssey_LKTI.docx" download>
+                    <button onClick={() => setPreviewFile({ url: "/docs/Galaxy_Research_Odyssey_LKTI.docx", name: "Pernyataan Orisinalitas (LKTI)" })}>
                       <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                         <FileText className="h-3.5 w-3.5" />
                         Pernyataan Orisinalitas (LKTI)
                       </Button>
-                    </a>
+                    </button>
                   )}
                   {reg.competitionName?.toLowerCase().includes("video") && (
-                    <a href="/docs/Video_Kreatif.docx" download>
+                    <button onClick={() => setPreviewFile({ url: "/docs/Video_Kreatif.docx", name: "Pernyataan Orisinalitas (Video)" })}>
                       <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                         <FileText className="h-3.5 w-3.5" />
                         Pernyataan Orisinalitas (Video)
                       </Button>
-                    </a>
+                    </button>
                   )}
                   {(reg.competitionName?.toLowerCase().includes("vortex") || reg.competitionName?.toLowerCase().includes("poster")) && (
-                    <a href="/docs/VORTEX_DIGITAL POSTER.docx" download>
+                    <button onClick={() => setPreviewFile({ url: "/docs/VORTEX_DIGITAL POSTER.docx", name: "Pernyataan Orisinalitas (Poster)" })}>
                       <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                         <FileText className="h-3.5 w-3.5" />
                         Pernyataan Orisinalitas (Poster)
                       </Button>
-                    </a>
+                    </button>
                   )}
                 </div>
               </div>
@@ -299,6 +296,12 @@ export function RegistrationList({
           </div>
         </Card>
       ))}
+      <FilePreviewDialog 
+        isOpen={!!previewFile}
+        onClose={() => setPreviewFile(null)}
+        fileUrl={previewFile?.url || null}
+        fileName={previewFile?.name}
+      />
     </div>
   );
 }

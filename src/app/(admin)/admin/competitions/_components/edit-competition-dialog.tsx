@@ -269,7 +269,7 @@ export function EditCompetitionDialog({
                 </div>
 
                 {/* Komponen Switch untuk requiresSubmission */}
-                <div className="flex items-center justify-between rounded-lg border p-3">
+                <div className="flex items-center justify-between rounded-none border p-3">
                   <div className="space-y-0.5">
                     <Label htmlFor="edit-requires-submission">Wajib Unggah Karya (Submission)</Label>
                     <p className="text-xs text-muted-foreground">
@@ -286,7 +286,7 @@ export function EditCompetitionDialog({
                 </div>
 
                 {/* Komponen Switch untuk Lomba Aktif */}
-                <div className="flex items-center justify-between rounded-lg border p-3">
+                <div className="flex items-center justify-between rounded-none border p-3">
                   <div className="space-y-0.5">
                     <Label htmlFor="edit-active">Lomba Aktif</Label>
                     <p className="text-xs text-muted-foreground">

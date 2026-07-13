@@ -36,7 +36,7 @@ export function WaveFormFields({
   };
 
   return (
-    <div className="rounded-lg border bg-card p-4 shadow-sm transition-colors hover:border-primary/20">
+    <div className="rounded-none border bg-card p-4 shadow-sm transition-colors hover:border-primary/20">
       <div className="mb-4 flex items-center justify-between">
         <p className="text-sm font-semibold">Gelombang {index + 1}</p>
         <Button

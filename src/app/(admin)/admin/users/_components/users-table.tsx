@@ -69,7 +69,7 @@ const PAGE_LIMIT = 8
 function RoleBadge({ role }: { role: string }) {
   const cfg = ROLE_CONFIG[role] ?? { label: role, className: "border-gray-200 bg-gray-50 text-gray-600", icon: null }
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${cfg.className}`}>
+    <span className={`inline-flex items-center gap-1 rounded-none border px-2.5 py-0.5 text-xs font-medium ${cfg.className}`}>
       {cfg.icon}
       {cfg.label}
     </span>
@@ -80,13 +80,13 @@ function UserCardSkeleton() {
   return (
     <div className="flex flex-col gap-3">
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="flex items-center gap-4 rounded-xl border border-muted/40 bg-white p-4">
-          <Skeleton className="size-10 rounded-full shrink-0" />
+        <div key={i} className="flex items-center gap-4 rounded-none border border-muted/40 bg-white p-4">
+          <Skeleton className="size-10 rounded-none shrink-0" />
           <div className="flex flex-col gap-1.5 flex-1 min-w-0">
             <Skeleton className="h-3.5 w-40" />
             <Skeleton className="h-3 w-56" />
           </div>
-          <Skeleton className="h-6 w-20 rounded-full shrink-0 hidden sm:block" />
+          <Skeleton className="h-6 w-20 rounded-none shrink-0 hidden sm:block" />
         </div>
       ))}
     </div>

@@ -95,7 +95,7 @@ export function CreateUserCard({ onSuccess }: { onSuccess?: () => void }) {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-sm text-muted-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-none text-muted-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
               >
                 {showPassword ? (
@@ -112,7 +112,7 @@ export function CreateUserCard({ onSuccess }: { onSuccess?: () => void }) {
             )}
           </div>
 
-          <div className="rounded-xl border bg-muted/30 p-4 transition-colors hover:border-primary/20">
+          <div className="rounded-none border bg-muted/30 p-4 transition-colors hover:border-primary/20">
             <div className="grid gap-3">
               <Label className="text-sm font-medium">Hak Akses (Role)</Label>
               <Select

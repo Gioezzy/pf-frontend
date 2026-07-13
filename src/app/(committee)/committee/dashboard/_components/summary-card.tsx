@@ -14,9 +14,9 @@ export function SummaryCard({
   isLoading: boolean;
 }) {
   return (
-    <Card className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#E7A93C]/30 hover:bg-card h-full">
+    <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#E7A93C]/30 hover:bg-card h-full">
       <CardContent className="flex items-center gap-4 py-6">
-        <div className="flex size-12 items-center justify-center rounded-xl bg-[#E7A93C]/10 text-[#E7A93C] group-hover:scale-110 transition-transform duration-300">
+        <div className="flex size-12 items-center justify-center rounded-none bg-[#E7A93C]/10 text-[#E7A93C] group-hover:scale-110 transition-transform duration-300">
           <Icon className="size-6" />
         </div>
         <div>

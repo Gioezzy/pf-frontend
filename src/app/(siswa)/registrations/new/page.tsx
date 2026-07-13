@@ -14,7 +14,7 @@ function NewRegistrationContent() {
   return (
     <div className="flex flex-col items-center justify-center py-10 gap-8 w-full max-w-4xl mx-auto">
       <div className="text-center space-y-2 max-w-xl">
-        <div className="inline-flex items-center rounded-full border border-[#5C7C99]/20 bg-[#5C7C99]/10 px-3 py-1 text-sm font-medium text-[#5C7C99] shadow-sm backdrop-blur-md mb-3">
+        <div className="inline-flex items-center rounded-none border border-[#5C7C99]/20 bg-[#5C7C99]/10 px-3 py-1 text-sm font-medium text-[#5C7C99] shadow-sm backdrop-blur-md mb-3">
           Pendaftaran Lomba
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Konfirmasi Pendaftaran</h1>

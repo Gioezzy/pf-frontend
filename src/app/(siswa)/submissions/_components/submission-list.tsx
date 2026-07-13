@@ -18,6 +18,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { FileTextIcon } from "lucide-react";
 import axios from "axios";
+import { FilePreviewDialog } from "@/src/components/ui/file-preview-dialog";
 
 interface ErrorResponse {
   message: string;
@@ -40,6 +41,7 @@ export function SubmissionList({
   const [file, setFile] = useState<File | null>(null);
   const [originalityFile, setOriginalityFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [previewFile, setPreviewFile] = useState<{ url: string; name: string; } | null>(null);
 
   async function handleSubmitForm(e: React.FormEvent, regId: string) {
     e.preventDefault();
@@ -102,7 +104,7 @@ export function SubmissionList({
         const sub = submissions[reg.id];
 
         return (
-          <Card key={reg.id} className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+          <Card key={reg.id} className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
             <CardHeader>
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -124,7 +126,7 @@ export function SubmissionList({
             </CardHeader>
             <CardContent>
               {sub ? (
-                <div className="space-y-4 rounded-md border p-4 bg-muted/20">
+                <div className="space-y-4 rounded-none border p-4 bg-muted/20">
                   <div>
                     <h4 className="font-medium text-sm text-muted-foreground">Judul Karya</h4>
                     <p className="text-base">{sub.title}</p>
@@ -136,7 +138,7 @@ export function SubmissionList({
                   <div className="flex items-center gap-4 pt-2">
                     <Button 
                       variant="outline" 
-                      onClick={() => window.open(sub.fileUrl, "_blank", "noopener,noreferrer")}
+                      onClick={() => setPreviewFile({ url: sub.fileUrl, name: `Karya - ${sub.title}` })}
                     >
                       <FileTextIcon className="size-4 mr-2" />
                       Lihat Karya
@@ -144,15 +146,15 @@ export function SubmissionList({
                     {sub.originalityFileUrl && (
                       <Button 
                         variant="outline" 
-                        className="text-amber-600 border-amber-300 hover:bg-amber-50"
-                        onClick={() => window.open(sub.originalityFileUrl!, "_blank", "noopener,noreferrer")}
+                        className="text-amber-600 border-amber-300 hover:bg-amber-50 rounded-none"
+                        onClick={() => setPreviewFile({ url: sub.originalityFileUrl!, name: `Orisinalitas - ${sub.title}` })}
                       >
                         <FileTextIcon className="size-4 mr-2" />
                         Tanda Orisinalitas
                       </Button>
                     )}
                     {sub.score !== null && (
-                      <div className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1.5 rounded-full">
+                      <div className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1.5 rounded-none">
                         Nilai: {sub.score}
                       </div>
                     )}
@@ -160,16 +162,16 @@ export function SubmissionList({
                 </div>
               ) : reg.status === 'REJECTED' ? (
                 <div className="space-y-4">
-                  <div className="text-sm p-4 bg-destructive/10 text-destructive border border-destructive/20 rounded-md">
+                  <div className="text-sm p-4 bg-destructive/10 text-destructive border border-destructive/20 rounded-none">
                     Pendaftaran Anda ditolak. Silakan periksa alasan penolakan dan unggah ulang bukti pembayaran yang valid di menu Riwayat Pendaftaran.
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {activeRegId === reg.id ? (
-                    <form onSubmit={(e) => handleSubmitForm(e, reg.id)} className="space-y-4 border p-4 rounded-md">
+                    <form onSubmit={(e) => handleSubmitForm(e, reg.id)} className="space-y-4 border p-4 rounded-none">
                       {reg.competitionName.toLowerCase().includes("video") && (
-                        <div className="bg-blue-50/50 border border-blue-200 text-blue-800 p-4 rounded-xl text-sm mb-2 shadow-sm">
+                        <div className="bg-blue-50/50 border border-blue-200 text-blue-800 p-4 rounded-none text-sm mb-2 shadow-sm">
                           <strong>📝 Panduan Khusus Lomba Video Kreatif:</strong><br />
                           <span className="opacity-90">
                             Mohon <span className="font-semibold text-red-600">JANGAN</span> mengunggah file video mentah (mp4/mkv) ke dalam sistem ini. 
@@ -242,6 +244,13 @@ export function SubmissionList({
           </Card>
         );
       })}
+      
+      <FilePreviewDialog 
+        isOpen={!!previewFile}
+        onClose={() => setPreviewFile(null)}
+        fileUrl={previewFile?.url || null}
+        fileName={previewFile?.name}
+      />
     </div>
   );
 }

@@ -24,7 +24,7 @@ export function OpenCompetitionsCard({
   isLoading,
 }: OpenCompetitionsCardProps) {
   return (
-    <Card className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card h-full">
+    <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card h-full">
       <CardHeader>
         <CardTitle>Lomba dengan Pendaftaran Dibuka</CardTitle>
         <CardDescription>

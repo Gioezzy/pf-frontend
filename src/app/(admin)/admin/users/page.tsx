@@ -15,7 +15,7 @@ export default function UsersPage() {
 
         {/* Header Halaman */}
         <div className="mb-8 flex items-start gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-none bg-primary/10 text-primary">
             <UsersIcon className="size-6" />
           </div>
           <div>
