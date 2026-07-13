@@ -128,6 +128,8 @@ export function TeamViewCard({
     } finally {
       setIsSubmitting(false);
     }
+  }
+
   async function handleRemoveMember(memberId: string) {
     if (!confirm("Apakah Anda yakin ingin mengeluarkan anggota ini?")) return;
     
