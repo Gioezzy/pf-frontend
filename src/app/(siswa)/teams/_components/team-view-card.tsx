@@ -264,7 +264,7 @@ export function TeamViewCard({
                     onClick={() => setIsLeaveModalOpen(true)} 
                     disabled={isSubmitting || team.isRegistered} 
                     className="h-7 text-xs px-2"
-                    title={team.isRegistered ? "Tim sudah terdaftar lomba" : ""}
+                    title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : ""}
                   >
                     {isLeader ? (
                       <><Trash2Icon className="h-3 w-3 mr-1" />Batalkan Tim</>
@@ -340,9 +340,9 @@ export function TeamViewCard({
                               variant="ghost" 
                               size="sm" 
                               onClick={() => setMemberToTransfer(member.userId)} 
-                              disabled={isSubmitting} 
+                              disabled={isSubmitting || team.isRegistered} 
                               className="h-7 w-7 p-0 text-muted-foreground hover:text-primary"
-                              title="Jadikan Ketua"
+                              title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : "Jadikan Ketua"}
                             >
                               <ArrowRightLeftIcon className="h-4 w-4" />
                             </Button>
@@ -350,9 +350,9 @@ export function TeamViewCard({
                               variant="ghost" 
                               size="sm" 
                               onClick={() => setMemberToRemove(member.userId)} 
-                              disabled={isSubmitting} 
+                              disabled={isSubmitting || team.isRegistered} 
                               className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
-                              title="Keluarkan Anggota"
+                              title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : "Keluarkan Anggota"}
                             >
                               <Trash2Icon className="h-4 w-4" />
                             </Button>
@@ -393,7 +393,7 @@ export function TeamViewCard({
                           }}
                           onFocus={() => setShowDropdown(true)}
                           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                          disabled={isSubmitting}
+                          disabled={isSubmitting || team.isRegistered}
                         />
                         {showDropdown && searchQuery.length >= 3 && (
                           <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-muted/60 shadow-md rounded-xl overflow-hidden z-10 max-h-60 overflow-y-auto">
@@ -435,7 +435,7 @@ export function TeamViewCard({
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type="submit" disabled={isSubmitting || team.isRegistered}>
                     <UserPlusIcon className="size-4 mr-2" />
                     {isSubmitting ? "Menambahkan..." : "Tambah Anggota"}
                   </Button>
@@ -489,8 +489,9 @@ export function TeamViewCard({
                               setIsSubmitting(false);
                             }
                           }}
-                          disabled={isSubmitting}
+                          disabled={isSubmitting || team.isRegistered}
                           className="h-7 text-xs"
+                          title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : ""}
                         >
                           Tambah
                         </Button>
