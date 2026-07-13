@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { name: "Tentang", href: "#about" },
   { name: "Cabang Lomba", href: "#competitions" },
   { name: "Timeline", href: "#timeline" },
-  { name: "Unduh Berkas", href: "#downloads" },
   { name: "Kontak", href: "#footer" },
 ];
 
@@ -45,6 +44,7 @@ export function Navbar() {
               alt="HIMAFI Logo" 
               width={36} 
               height={36}
+              priority
               className="w-8 h-8 md:w-9 md:h-9 object-contain"
             />
             <Image 
@@ -52,6 +52,7 @@ export function Navbar() {
               alt="Universitas Andalas Logo" 
               width={36} 
               height={36}
+              priority
               className="w-8 h-8 md:w-9 md:h-9 object-contain"
             />
             <Image 
@@ -59,6 +60,7 @@ export function Navbar() {
               alt="Physics Festival Logo" 
               width={36} 
               height={36}
+              priority
               className="w-8 h-8 md:w-9 md:h-9 object-contain rounded-full border border-white/20"
             />
           </div>
