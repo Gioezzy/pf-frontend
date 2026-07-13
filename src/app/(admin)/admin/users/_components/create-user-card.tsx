@@ -30,8 +30,8 @@ import {
 import { useCreateUserForm } from "../_hooks/use-create-user-form"
 import { ROLE_OPTIONS, type UserRole } from "../_lib/roles"
 
-export function CreateUserCard() {
-  const { form, setField, isSubmitting, submit } = useCreateUserForm()
+export function CreateUserCard({ onSuccess }: { onSuccess?: () => void }) {
+  const { form, setField, isSubmitting, submit } = useCreateUserForm(onSuccess)
 
   // 3. Tambahkan state untuk mengontrol visibilitas password
   const [showPassword, setShowPassword] = useState(false)

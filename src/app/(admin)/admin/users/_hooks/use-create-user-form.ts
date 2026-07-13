@@ -16,7 +16,7 @@ const EMPTY_FORM = {
 
 type FormState = typeof EMPTY_FORM
 
-export function useCreateUserForm() {
+export function useCreateUserForm(onSuccess?: () => void) {
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -49,6 +49,7 @@ export function useCreateUserForm() {
         `Akun untuk "${payload.fullName}" berhasil dibuat dan langsung terverifikasi.`,
       )
       setForm(EMPTY_FORM)
+      onSuccess?.()
     } catch (error) {
       console.error("Gagal membuat akun pengguna:", error)
       toast.error(

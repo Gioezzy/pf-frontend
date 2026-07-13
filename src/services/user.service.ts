@@ -25,8 +25,8 @@ export async function adminCreateUser(
 }
 
 /** Profil lengkap user yang sedang login. Response di-cache browser 60 detik (busted via timestamp). */
-export async function getMyProfile(): Promise<User> {
-  const { data } = await api.get<User>(`/users/me?t=${Date.now()}`);
+export async function getMyProfile(config?: import('axios').AxiosRequestConfig): Promise<User> {
+  const { data } = await api.get<User>(`/users/me?t=${Date.now()}`, config);
   return data;
 }
 
@@ -70,8 +70,21 @@ export async function updateAvatar(
   return data;
 }
 
-export async function getAllUsers(): Promise<User[]> {
-  const { data } = await api.get<User[]>('/users');
+export interface PaginatedUsersResponse {
+  data: User[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export async function getAllUsers(params: {
+  page?: number;
+  limit?: number;
+  role?: string;
+  search?: string;
+} = {}): Promise<PaginatedUsersResponse> {
+  const { data } = await api.get<PaginatedUsersResponse>('/users', { params });
   return data;
 }
 

@@ -1,13 +1,17 @@
 // admin/users/page.tsx
+"use client"
+
+import { useState } from "react"
 import { UsersIcon } from "lucide-react"
 import { CreateUserCard } from "./_components/create-user-card"
 import { UsersTable } from "./_components/users-table"
 
 export default function UsersPage() {
+  const [mutationKey, setMutationKey] = useState(0)
+
   return (
     <div className="flex flex-col px-4 py-8 lg:px-8">
-      {/* Pembungkus utama agar posisinya tepat di tengah layar */}
-      <div className="mx-auto w-full max-w-2xl">
+      <div className="mx-auto w-full max-w-4xl">
 
         {/* Header Halaman */}
         <div className="mb-8 flex items-start gap-4">
@@ -24,10 +28,11 @@ export default function UsersPage() {
         </div>
 
         {/* Container Form */}
-        <CreateUserCard />
+        <CreateUserCard onSuccess={() => setMutationKey((k) => k + 1)} />
 
-        {/* Tabel Daftar Pengguna */}
-        <UsersTable />
+        {/* Tabel Daftar Pengguna — otomatis refresh saat mutationKey berubah */}
+        <UsersTable onMutate={mutationKey} />
+
       </div>
     </div>
   )
