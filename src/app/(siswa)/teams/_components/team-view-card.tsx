@@ -128,6 +128,23 @@ export function TeamViewCard({
     } finally {
       setIsSubmitting(false);
     }
+  async function handleRemoveMember(memberId: string) {
+    if (!confirm("Apakah Anda yakin ingin mengeluarkan anggota ini?")) return;
+    
+    setIsSubmitting(true);
+    try {
+      await teamService.removeMember(memberId);
+      toast.success("Anggota berhasil dikeluarkan.");
+      onMutate();
+    } catch (error: unknown) {
+      if (axios.isAxiosError<ErrorResponse>(error)){
+        toast.error(error.response?.data?.message ?? "Gagal mengeluarkan anggota");
+      } else {
+        toast.error("Terjadi kesalahan yang tidak diketahui");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   if (isLoading) {
@@ -222,17 +239,30 @@ export function TeamViewCard({
               ) : (
                 <div className="grid gap-2">
                   {team.members.map((member) => (
-                    <div key={member.id} className="flex items-center gap-3 bg-card p-3 rounded-xl border border-muted/60 shadow-sm hover:shadow-md hover:border-primary/20 transition-all">
-                      <Avatar className="h-9 w-9">
-                        <AvatarImage src={member.avatarUrl || ""} alt={member.fullName} />
-                        <AvatarFallback className="bg-secondary text-secondary-foreground text-sm font-medium">
-                          {member.fullName.charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium leading-none">{member.fullName}</span>
-                        <span className="text-xs text-muted-foreground mt-1">Bergabung {new Date(member.joinedAt).toLocaleDateString("id-ID")}</span>
+                    <div key={member.id} className="flex items-center justify-between gap-3 bg-card p-3 rounded-xl border border-muted/60 shadow-sm hover:shadow-md hover:border-primary/20 transition-all">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-9 w-9">
+                          <AvatarImage src={member.avatarUrl || ""} alt={member.fullName} />
+                          <AvatarFallback className="bg-secondary text-secondary-foreground text-sm font-medium">
+                            {member.fullName.charAt(0).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium leading-none">{member.fullName}</span>
+                          <span className="text-xs text-muted-foreground mt-1">Bergabung {new Date(member.joinedAt).toLocaleDateString("id-ID")}</span>
+                        </div>
                       </div>
+                      {profile?.id === team.leader.id && (
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleRemoveMember(member.id)} 
+                          disabled={isSubmitting} 
+                          className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                        >
+                          <Trash2Icon className="h-4 w-4" />
+                        </Button>
+                      )}
                     </div>
                   ))}
                 </div>

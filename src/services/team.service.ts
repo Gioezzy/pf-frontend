@@ -44,3 +44,12 @@ export async function leaveTeam(): Promise<{ message: string }> {
   const { data } = await api.delete<{ message: string }>('/teams/my-team');
   return data;
 }
+
+/**
+ * Mengeluarkan anggota dari tim.
+ * HANYA ketua tim yang boleh memanggil ini.
+ */
+export async function removeMember(memberId: string): Promise<Team> {
+  const { data } = await api.delete<Team>(`/teams/members/${memberId}`);
+  return data;
+}
