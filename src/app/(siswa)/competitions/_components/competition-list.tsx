@@ -13,12 +13,16 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import type { Competition } from "@/src/types/competition.types";
 import { UsersIcon, UserIcon } from "lucide-react";
 
+import type { Registration } from "@/src/types/registration.types";
+
 export function CompetitionList({
   competitions,
   isLoading,
+  registrations = [],
 }: {
   competitions: Competition[];
   isLoading: boolean;
+  registrations?: Registration[];
 }) {
   if (isLoading) {
     return (
@@ -107,15 +111,31 @@ export function CompetitionList({
             )}
           </CardContent>
           <CardFooter>
-            {competition.isOpen ? (
-              <Link href={`/registrations/new?competitionId=${competition.id}`} className="w-full">
-                <Button className="w-full bg-[#5C7C99] hover:bg-[#4A647B] text-white shadow-none">Daftar Sekarang</Button>
-              </Link>
-            ) : (
-              <Button disabled className="w-full" variant="secondary">
-                Pendaftaran Ditutup
-              </Button>
-            )}
+            {(() => {
+              const isAlreadyRegistered = registrations.some(r => r.competitionId === competition.id && r.status !== 'CANCELLED' && r.status !== 'REJECTED');
+              
+              if (isAlreadyRegistered) {
+                return (
+                  <Button disabled className="w-full bg-emerald-600/10 text-emerald-600 hover:bg-emerald-600/10 hover:text-emerald-600 border border-emerald-600/20 opacity-100">
+                    Sudah Terdaftar
+                  </Button>
+                );
+              }
+              
+              if (competition.isOpen) {
+                return (
+                  <Link href={`/registrations/new?competitionId=${competition.id}`} className="w-full">
+                    <Button className="w-full bg-[#5C7C99] hover:bg-[#4A647B] text-white shadow-none">Daftar Sekarang</Button>
+                  </Link>
+                );
+              }
+              
+              return (
+                <Button disabled className="w-full" variant="secondary">
+                  Pendaftaran Ditutup
+                </Button>
+              );
+            })()}
           </CardFooter>
         </Card>
       ))}

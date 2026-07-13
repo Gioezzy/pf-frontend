@@ -1,11 +1,13 @@
 "use client";
 
 import { useCompetitions } from "./_hooks/use-competitions";
+import { useRegistrations } from "../registrations/_hooks/use-registrations";
 import { CompetitionList } from "./_components/competition-list";
 import { Trophy } from "lucide-react";
 
 export default function CompetitionsPage() {
   const { competitions, isLoading } = useCompetitions();
+  const { registrations, isLoading: isRegLoading } = useRegistrations();
 
   return (
     <div className="flex flex-col gap-6">
@@ -26,7 +28,11 @@ export default function CompetitionsPage() {
         </div>
       </div>
 
-      <CompetitionList competitions={competitions} isLoading={isLoading} />
+      <CompetitionList 
+        competitions={competitions} 
+        isLoading={isLoading || isRegLoading} 
+        registrations={registrations} 
+      />
     </div>
   );
 }

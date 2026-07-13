@@ -168,6 +168,16 @@ export function SubmissionList({
                 <div className="space-y-4">
                   {activeRegId === reg.id ? (
                     <form onSubmit={(e) => handleSubmitForm(e, reg.id)} className="space-y-4 border p-4 rounded-md">
+                      {reg.competitionName.toLowerCase().includes("video") && (
+                        <div className="bg-blue-50/50 border border-blue-200 text-blue-800 p-4 rounded-xl text-sm mb-2 shadow-sm">
+                          <strong>📝 Panduan Khusus Lomba Video Kreatif:</strong><br />
+                          <span className="opacity-90">
+                            Mohon <span className="font-semibold text-red-600">JANGAN</span> mengunggah file video mentah (mp4/mkv) ke dalam sistem ini. 
+                            Silakan unggah dokumen berformat <strong>PDF</strong> atau <strong>Word</strong> yang memuat format laporan: 
+                            <br/>• Nama Kelompok<br/>• Daftar Anggota<br/>• Asal Sekolah<br/>• <strong>Tautan (Link) Video</strong> (Google Drive / YouTube).
+                          </span>
+                        </div>
+                      )}
                       <div className="space-y-2">
                         <Label>Judul Karya</Label>
                         <Input 

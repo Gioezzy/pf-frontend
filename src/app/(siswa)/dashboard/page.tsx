@@ -92,22 +92,22 @@ export default function DashboardPage() {
             </CardTitle>
             <CardDescription>Informasi identitas akun Anda</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
-            <div className="group/item">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-2">
-                Nama Lengkap
+          <CardContent className="space-y-6">
+            <div className="group/item border-b border-muted/30 pb-3 last:border-0 last:pb-0">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-2">
+                <User className="h-3.5 w-3.5" /> Nama Lengkap
               </p>
               <p className="font-medium text-foreground">{profile.fullName || "-"}</p>
             </div>
-            <div className="group/item">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-2">
-                Alamat Email
+            <div className="group/item border-b border-muted/30 pb-3 last:border-0 last:pb-0">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-2">
+                <Mail className="h-3.5 w-3.5" /> Alamat Email
               </p>
               <p className="font-medium text-foreground">{profile.email}</p>
             </div>
-            <div className="group/item">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-2">
-                Nomor Telepon
+            <div className="group/item border-b border-muted/30 pb-3 last:border-0 last:pb-0">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-2">
+                <Phone className="h-3.5 w-3.5" /> Nomor Telepon
               </p>
               <p className="font-medium text-foreground">{profile.phoneNumber || "-"}</p>
             </div>
@@ -125,16 +125,16 @@ export default function DashboardPage() {
             </CardTitle>
             <CardDescription>Detail instansi dan status</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-5">
-            <div className="group/item">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-2">
-                Asal Sekolah / Instansi
+          <CardContent className="space-y-6">
+            <div className="group/item border-b border-muted/30 pb-3 last:border-0 last:pb-0">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-2">
+                <School className="h-3.5 w-3.5" /> Asal Sekolah / Instansi
               </p>
               <p className="font-medium text-foreground">{profile.institution || "-"}</p>
             </div>
-            <div className="group/item">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-2">
-                Peran Pengguna
+            <div className="group/item border-b border-muted/30 pb-3 last:border-0 last:pb-0">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-2">
+                <KeyRound className="h-3.5 w-3.5" /> Peran Pengguna
               </p>
               <div className="mt-1">
                 <Badge className="bg-[#5C7C99]/20 text-[#5C7C99] border-[#5C7C99]/30 hover:bg-primary/30 transition-colors">
@@ -142,9 +142,9 @@ export default function DashboardPage() {
                 </Badge>
               </div>
             </div>
-            <div className="group/item">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 flex items-center gap-2">
-                Tanggal Bergabung
+            <div className="group/item border-b border-muted/30 pb-3 last:border-0 last:pb-0">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5 flex items-center gap-2">
+                <Clock className="h-3.5 w-3.5" /> Tanggal Bergabung
               </p>
               <p className="font-medium text-foreground">
                 {new Date(profile.createdAt).toLocaleDateString("id-ID", {
