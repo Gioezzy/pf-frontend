@@ -42,8 +42,9 @@ export function LoginForm({
       const role = response.user.role;
       const target = ROLE_DASHBOARD[role] ?? "/dashboard";
 
-      router.push(target);
-      router.refresh();
+      // Menggunakan full reload karena Hostinger memotong header 'Vary: RSC' 
+      // yang menyebabkan bug munculnya raw JSON payload di layar.
+      window.location.href = target;
     } catch (err: unknown) {
       setError(getApiErrorMessage(err, "Gagal melakukan login. Silakan coba lagi."));
     } finally {

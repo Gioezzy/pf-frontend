@@ -71,8 +71,8 @@ export function VerifyForm({
       };
       const target = ROLE_DASHBOARD[role] ?? "/dashboard";
       
-      router.push(target);
-      router.refresh();
+      // Menggunakan full reload karena Hostinger memotong header 'Vary: RSC'
+      window.location.href = target;
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
