@@ -71,7 +71,8 @@ export function VerifyForm({
       };
       const target = ROLE_DASHBOARD[role] ?? "/dashboard";
       
-      window.location.href = target;
+      router.push(target);
+      router.refresh();
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

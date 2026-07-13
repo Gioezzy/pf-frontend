@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import Link from "next/link"; // Tambahkan import Link dari Next.js
+import Link from "next/link";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 
-// Import auth service dan error helper dari axios
+import { useRouter } from "next/navigation";
 import { login } from "../../services/auth.service";
 import { getApiErrorMessage } from "../../lib/axios";
 
@@ -22,6 +22,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +42,8 @@ export function LoginForm({
       const role = response.user.role;
       const target = ROLE_DASHBOARD[role] ?? "/dashboard";
 
-      window.location.href = target;
+      router.push(target);
+      router.refresh();
     } catch (err: unknown) {
       setError(getApiErrorMessage(err, "Gagal melakukan login. Silakan coba lagi."));
     } finally {
