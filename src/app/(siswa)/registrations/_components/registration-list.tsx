@@ -59,6 +59,10 @@ export function RegistrationList({
       return;
     }
     
+    // For teams, we can check if the number of files matches the number of members
+    // but the backend only requires array of files. We'll pass the valid ones.
+    // We will validate length on the UI before allowing submit.
+
     setUploadingId(id);
     try {
       await registrationService.uploadPaymentProof(id, files.payment, validIdentityFiles as File[]);
@@ -99,7 +103,7 @@ export function RegistrationList({
   return (
     <div className="grid grid-cols-1 gap-4">
       {registrations.map((reg) => (
-        <Card key={reg.id} className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card flex flex-col md:flex-row justify-between overflow-hidden">
+        <Card key={reg.id} className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card flex flex-col md:flex-row justify-between overflow-hidden">
           <div className="flex-1 flex flex-col p-6">
             <CardHeader className="p-0">
               <div className="flex items-center gap-2">
@@ -126,7 +130,7 @@ export function RegistrationList({
                     <p className="font-semibold mb-2 text-xs uppercase tracking-wider text-muted-foreground">Riwayat Unggah Bukti</p>
                     <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
                       {reg.paymentAttempts.map((attempt, index) => (
-                        <div key={attempt.id} className="bg-muted/30 p-3 rounded-none border text-xs">
+                        <div key={attempt.id} className="bg-muted/30 p-3 rounded-md border text-xs">
                           <div className="flex justify-between items-center mb-1">
                             <span className="font-medium text-foreground">
                               Percobaan {reg.paymentAttempts.length - index}
@@ -205,7 +209,7 @@ export function RegistrationList({
                     </Label>
                     <div className="space-y-3">
                       {participants.map((p, idx) => (
-                        <div key={p.id} className="flex flex-col gap-1.5 p-2 border rounded-none bg-white">
+                        <div key={p.id} className="flex flex-col gap-1.5 p-2 border rounded-md bg-white">
                           <Label htmlFor={`identity-${reg.id}-${idx}`} className="text-[10px] font-medium text-primary">
                             {p.label}
                           </Label>
@@ -296,6 +300,7 @@ export function RegistrationList({
           </div>
         </Card>
       ))}
+      
       <FilePreviewDialog 
         isOpen={!!previewFile}
         onClose={() => setPreviewFile(null)}

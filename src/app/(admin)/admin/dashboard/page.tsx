@@ -13,14 +13,14 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8 pb-10 px-4 lg:px-6">
       {/* Premium Banner Section */}
-      <div className="relative overflow-hidden rounded-none bg-gradient-to-br from-[#5C7C99]/20 via-[#5C7C99]/5 to-background border border-[#5C7C99]/20 p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:border-[#5C7C99]/40 group">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#5C7C99]/20 via-[#5C7C99]/5 to-background border border-[#5C7C99]/20 p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:border-[#5C7C99]/40 group">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
           <ShieldAlert className="w-64 h-64 rotate-12" />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center rounded-none border border-[#5C7C99]/20 bg-[#5C7C99]/10 px-3 py-1 text-sm font-medium text-[#5C7C99] shadow-sm backdrop-blur-md">
-              <span className="flex h-2 w-2 rounded-none bg-[#5C7C99] mr-2 animate-pulse"></span>
+            <div className="inline-flex items-center rounded-full border border-[#5C7C99]/20 bg-[#5C7C99]/10 px-3 py-1 text-sm font-medium text-[#5C7C99] shadow-sm backdrop-blur-md">
+              <span className="flex h-2 w-2 rounded-full bg-[#5C7C99] mr-2 animate-pulse"></span>
               Administrator Pusat
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">

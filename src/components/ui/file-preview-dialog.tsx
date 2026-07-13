@@ -20,7 +20,7 @@ export function FilePreviewDialog({ isOpen, onClose, fileUrl, fileName = "File",
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl w-full h-[80vh] flex flex-col p-0 rounded-none overflow-hidden">
+      <DialogContent className="max-w-4xl w-full h-[80vh] flex flex-col p-0 overflow-hidden">
         <DialogHeader className="p-4 border-b">
           <div className="flex justify-between items-center w-full">
             <DialogTitle className="text-lg font-bold">{fileName}</DialogTitle>
@@ -29,7 +29,7 @@ export function FilePreviewDialog({ isOpen, onClose, fileUrl, fileName = "File",
               download 
               target="_blank" 
               rel="noopener noreferrer"
-              className={buttonVariants({ variant: "outline", size: "sm", className: "rounded-none" })}
+              className={buttonVariants({ variant: "outline", size: "sm" })}
             >
               <DownloadIcon className="h-4 w-4 mr-2" />
               Download
@@ -53,7 +53,7 @@ export function FilePreviewDialog({ isOpen, onClose, fileUrl, fileName = "File",
                 download 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={buttonVariants({ variant: "default", className: "rounded-none" })}
+                className={buttonVariants({ variant: "default" })}
               >
                 Download File
               </a>

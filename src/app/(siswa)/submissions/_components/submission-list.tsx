@@ -104,7 +104,7 @@ export function SubmissionList({
         const sub = submissions[reg.id];
 
         return (
-          <Card key={reg.id} className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+          <Card key={reg.id} className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
             <CardHeader>
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -126,7 +126,7 @@ export function SubmissionList({
             </CardHeader>
             <CardContent>
               {sub ? (
-                <div className="space-y-4 rounded-none border p-4 bg-muted/20">
+                <div className="space-y-4 rounded-md border p-4 bg-muted/20">
                   <div>
                     <h4 className="font-medium text-sm text-muted-foreground">Judul Karya</h4>
                     <p className="text-base">{sub.title}</p>
@@ -146,7 +146,7 @@ export function SubmissionList({
                     {sub.originalityFileUrl && (
                       <Button 
                         variant="outline" 
-                        className="text-amber-600 border-amber-300 hover:bg-amber-50 rounded-none"
+                        className="text-amber-600 border-amber-300 hover:bg-amber-50"
                         onClick={() => setPreviewFile({ url: sub.originalityFileUrl!, name: `Orisinalitas - ${sub.title}` })}
                       >
                         <FileTextIcon className="size-4 mr-2" />
@@ -154,7 +154,7 @@ export function SubmissionList({
                       </Button>
                     )}
                     {sub.score !== null && (
-                      <div className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1.5 rounded-none">
+                      <div className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1.5 rounded-full">
                         Nilai: {sub.score}
                       </div>
                     )}
@@ -162,16 +162,16 @@ export function SubmissionList({
                 </div>
               ) : reg.status === 'REJECTED' ? (
                 <div className="space-y-4">
-                  <div className="text-sm p-4 bg-destructive/10 text-destructive border border-destructive/20 rounded-none">
+                  <div className="text-sm p-4 bg-destructive/10 text-destructive border border-destructive/20 rounded-md">
                     Pendaftaran Anda ditolak. Silakan periksa alasan penolakan dan unggah ulang bukti pembayaran yang valid di menu Riwayat Pendaftaran.
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {activeRegId === reg.id ? (
-                    <form onSubmit={(e) => handleSubmitForm(e, reg.id)} className="space-y-4 border p-4 rounded-none">
+                    <form onSubmit={(e) => handleSubmitForm(e, reg.id)} className="space-y-4 border p-4 rounded-md">
                       {reg.competitionName.toLowerCase().includes("video") && (
-                        <div className="bg-blue-50/50 border border-blue-200 text-blue-800 p-4 rounded-none text-sm mb-2 shadow-sm">
+                        <div className="bg-blue-50/50 border border-blue-200 text-blue-800 p-4 rounded-xl text-sm mb-2 shadow-sm">
                           <strong>📝 Panduan Khusus Lomba Video Kreatif:</strong><br />
                           <span className="opacity-90">
                             Mohon <span className="font-semibold text-red-600">JANGAN</span> mengunggah file video mentah (mp4/mkv) ke dalam sistem ini. 
@@ -244,7 +244,7 @@ export function SubmissionList({
           </Card>
         );
       })}
-      
+
       <FilePreviewDialog 
         isOpen={!!previewFile}
         onClose={() => setPreviewFile(null)}

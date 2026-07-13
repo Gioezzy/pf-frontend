@@ -35,7 +35,7 @@ export function WaveEditRow({
   };
 
   return (
-    <div className="rounded-none border bg-card p-4 shadow-sm transition-colors hover:border-primary/20">
+    <div className="rounded-lg border bg-card p-4 shadow-sm transition-colors hover:border-primary/20">
       <div className="mb-4 flex items-center justify-between">
         <p className="text-sm font-semibold">{name}</p>
         <Button type="button" size="sm" disabled={isSaving} onClick={onSave}>

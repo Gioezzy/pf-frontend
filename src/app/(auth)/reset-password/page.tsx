@@ -10,7 +10,7 @@ export default function ResetPasswordPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10 bg-[#FAF8F5]">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="/" className="flex items-center gap-2 font-bold text-xl text-[#2C2621] hover:opacity-80 transition-opacity">
-            <div className="flex size-8 items-center justify-center rounded-none bg-[#5C7C99] text-white shadow-sm">
+            <div className="flex size-8 items-center justify-center rounded-md bg-[#5C7C99] text-white shadow-sm">
               <span className="font-extrabold text-sm">PF</span>
             </div>
             Physics Festival

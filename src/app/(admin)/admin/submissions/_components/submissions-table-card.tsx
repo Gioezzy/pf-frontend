@@ -33,7 +33,7 @@ export function SubmissionsTableCard({
     return (
       <div className="flex flex-col gap-3">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-16 w-full rounded-none bg-gray-100 animate-pulse" />
+          <div key={i} className="h-16 w-full rounded-xl bg-gray-100 animate-pulse" />
         ))}
       </div>
     )
@@ -44,7 +44,7 @@ export function SubmissionsTableCard({
   }
 
   return (
-    <div className="bg-white border border-gray-100 shadow-sm rounded-none overflow-hidden w-full flex flex-col">
+    <div className="bg-white border border-gray-100 shadow-sm rounded-xl overflow-hidden w-full flex flex-col">
       {/* Dynamic Header */}
       <div className="px-6 py-5 border-b border-gray-100 bg-white">
         <h2 className="text-lg font-semibold text-gray-900">
@@ -181,8 +181,8 @@ export function SubmissionsTableCard({
 
 function EmptyState({ message }: { message: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-16 text-center bg-white border border-gray-100 shadow-sm rounded-none">
-      <div className="p-4 bg-gray-50 rounded-none">
+    <div className="flex flex-col items-center justify-center gap-3 py-16 text-center bg-white border border-gray-100 shadow-sm rounded-xl">
+      <div className="p-4 bg-gray-50 rounded-full">
         <InboxIcon className="size-8 text-gray-400" />
       </div>
       <p className="text-sm text-gray-500 max-w-[250px]">{message}</p>
@@ -197,10 +197,10 @@ function DetailModal({ submission, onClose }: { submission: SubmissionRow, onClo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-      <div className="bg-white rounded-none shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h3 className="text-lg font-bold text-gray-900">Detail Submission</h3>
-          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 rounded-none hover:bg-gray-100 transition-colors">
+          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors">
             <XIcon className="size-5" />
           </button>
         </div>
@@ -228,7 +228,7 @@ function DetailModal({ submission, onClose }: { submission: SubmissionRow, onClo
           </div>
           
           {isTeam ? (
-            <div className="border border-gray-100 rounded-none p-4 bg-gray-50/50">
+            <div className="border border-gray-100 rounded-xl p-4 bg-gray-50/50">
               <p className="text-sm text-gray-500 mb-4">Informasi Tim</p>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
@@ -236,7 +236,7 @@ function DetailModal({ submission, onClose }: { submission: SubmissionRow, onClo
                   <span className="font-bold text-gray-900 text-lg">{submission.teamName}</span>
                 </div>
                 
-                <div className="bg-white border border-gray-100 rounded-none p-4">
+                <div className="bg-white border border-gray-100 rounded-xl p-4">
                   <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider">Ketua Tim</p>
                   <div className="flex gap-4 items-start">
                     <Avatar className="size-12 border border-gray-100">
@@ -262,7 +262,7 @@ function DetailModal({ submission, onClose }: { submission: SubmissionRow, onClo
                 </div>
 
                 {members.length > 0 && (
-                  <div className="bg-white border border-gray-100 rounded-none p-4">
+                  <div className="bg-white border border-gray-100 rounded-xl p-4">
                     <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider">Anggota Lainnya</p>
                     <div className="flex flex-col gap-4">
                       {members.map((m, i: number) => {
@@ -296,9 +296,9 @@ function DetailModal({ submission, onClose }: { submission: SubmissionRow, onClo
               </div>
             </div>
           ) : (
-            <div className="border border-gray-100 rounded-none p-4 bg-gray-50/50">
+            <div className="border border-gray-100 rounded-xl p-4 bg-gray-50/50">
               <p className="text-sm text-gray-500 mb-3">Peserta Individu</p>
-              <div className="bg-white border border-gray-100 rounded-none p-4">
+              <div className="bg-white border border-gray-100 rounded-xl p-4">
                 <div className="flex gap-4 items-start">
                   <Avatar className="size-14 border border-gray-100">
                     <AvatarImage src={submission.participantAvatar || ""} />

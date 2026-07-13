@@ -34,9 +34,9 @@ export function QuickLinks() {
     <div className="flex flex-col gap-4 h-full">
       {QUICK_LINKS.map(({ href, icon: Icon, title, description }) => (
         <Link key={href} href={href} className="flex-1">
-          <Card className="h-full group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+          <Card className="h-full group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
             <CardHeader>
-              <div className="flex size-9 items-center justify-center rounded-none bg-[#5C7C99]/10 text-[#5C7C99] group-hover:scale-110 transition-transform duration-300">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-[#5C7C99]/10 text-[#5C7C99] group-hover:scale-110 transition-transform duration-300">
                 <Icon className="size-5" />
               </div>
               <CardTitle className="pt-2 text-base">{title}</CardTitle>

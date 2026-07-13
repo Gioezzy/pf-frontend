@@ -28,13 +28,13 @@ export function CompetitionPickerCard({
         {/* Desktop skeletons */}
         <div className="hidden lg:flex flex-col gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-none" />
+            <Skeleton key={i} className="h-12 w-full rounded-lg" />
           ))}
         </div>
         {/* Mobile skeletons */}
         <div className="lg:hidden flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-10 w-32 shrink-0 rounded-none" />
+            <Skeleton key={i} className="h-10 w-32 shrink-0 rounded-full" />
           ))}
         </div>
       </div>
@@ -45,7 +45,7 @@ export function CompetitionPickerCard({
     return (
       <div className="flex flex-col gap-2">
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-2">Kategori Lomba</h2>
-        <div className="text-sm text-gray-500 bg-gray-50 p-4 rounded-none border border-dashed border-gray-200">
+        <div className="text-sm text-gray-500 bg-gray-50 p-4 rounded-lg border border-dashed border-gray-200">
           Belum ada lomba tersedia.
         </div>
       </div>
@@ -65,7 +65,7 @@ export function CompetitionPickerCard({
               key={comp.id ?? comp.name}
               onClick={() => onCompetitionChange(comp.id ?? "")}
               className={cn(
-                "shrink-0 snap-start px-5 py-2 text-sm font-medium transition-all duration-200 rounded-none border whitespace-nowrap",
+                "shrink-0 snap-start px-5 py-2 text-sm font-medium transition-all duration-200 rounded-full border whitespace-nowrap",
                 isActive
                   ? "bg-[#5C7C99] text-white shadow-md border-transparent"
                   : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-gray-900"
@@ -86,7 +86,7 @@ export function CompetitionPickerCard({
               key={comp.id ?? comp.name}
               onClick={() => onCompetitionChange(comp.id ?? "")}
               className={cn(
-                "w-full text-left p-3 rounded-none text-sm font-medium transition-all duration-200 border",
+                "w-full text-left p-3 rounded-lg text-sm font-medium transition-all duration-200 border",
                 isActive
                   ? "bg-[#5C7C99] text-white shadow-md border-transparent"
                   : "bg-transparent text-gray-600 border-transparent hover:bg-white hover:border-gray-200 hover:shadow-sm"

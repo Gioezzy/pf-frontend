@@ -30,7 +30,7 @@ export function RegistrationForm({
 }) {
   if (!competitionId) {
     return (
-      <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-xl border-[#5C7C99]/30">
+      <Card className="group rounded-3xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-xl border-[#5C7C99]/30">
         <CardContent className="py-16 text-center text-sm text-muted-foreground">
           Lomba belum dipilih. Silakan kembali ke menu <Link href="/competitions" className="text-[#5C7C99] font-bold hover:underline">Eksplorasi Lomba</Link>.
         </CardContent>
@@ -44,7 +44,7 @@ export function RegistrationForm({
 
   if (!competition) {
     return (
-      <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-xl border-[#5C7C99]/30">
+      <Card className="group rounded-3xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-xl border-[#5C7C99]/30">
         <CardContent className="py-16 text-center text-sm text-muted-foreground">
           Lomba tidak ditemukan.
         </CardContent>
@@ -54,7 +54,7 @@ export function RegistrationForm({
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-xl border-[#5C7C99]/30 overflow-hidden">
+      <Card className="group rounded-3xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-xl border-[#5C7C99]/30 overflow-hidden">
         <div className="bg-gradient-to-br from-[#5C7C99]/20 via-[#5C7C99]/5 to-transparent p-6 md:p-8 border-b border-[#5C7C99]/20">
           <CardTitle className="text-2xl font-bold">{competition.name}</CardTitle>
           <CardDescription className="mt-2 text-base">{competition.description || "-"}</CardDescription>
@@ -84,7 +84,7 @@ export function RegistrationForm({
           </div>
 
           {competition.participantType === 'TEAM' && (
-            <div className="rounded-none border border-muted/60 p-5 bg-muted/10 shadow-inner">
+            <div className="rounded-xl border border-muted/60 p-5 bg-muted/10 shadow-inner">
               <h4 className="font-semibold mb-2 text-sm">Status Tim Anda</h4>
               {team ? (
                 <div className="text-sm space-y-1">
@@ -98,7 +98,7 @@ export function RegistrationForm({
                 <div className="text-sm text-destructive font-medium space-y-3 mt-2">
                   <p>Anda belum tergabung atau membuat tim apa pun. Harap buat tim sebelum mendaftar.</p>
                   <Link href="/teams">
-                    <Button variant="outline" size="sm" className="rounded-none shadow-sm hover:bg-muted/50">Buat Tim Sekarang</Button>
+                    <Button variant="outline" size="sm" className="rounded-full shadow-sm hover:bg-muted/50">Buat Tim Sekarang</Button>
                   </Link>
                 </div>
               )}
@@ -106,7 +106,7 @@ export function RegistrationForm({
           )}
 
           {!competition.activeWave && (
-            <div className="text-sm text-destructive font-medium border border-destructive/50 bg-destructive/10 p-4 rounded-none flex items-center justify-center">
+            <div className="text-sm text-destructive font-medium border border-destructive/50 bg-destructive/10 p-4 rounded-xl flex items-center justify-center">
               Pendaftaran untuk lomba ini sedang ditutup karena tidak ada gelombang aktif.
             </div>
           )}
@@ -114,7 +114,7 @@ export function RegistrationForm({
         <CardFooter className="flex flex-col sm:flex-row gap-3 p-6 md:p-8 bg-muted/5 border-t border-muted/30">
           <Button 
             size="lg"
-            className="w-full sm:w-auto bg-[#5C7C99] hover:bg-[#4A647B] text-white shadow-md rounded-none px-8"
+            className="w-full sm:w-auto bg-[#5C7C99] hover:bg-[#4A647B] text-white shadow-md rounded-full px-8"
             disabled={
               !competition.activeWave || 
               (competition.participantType === 'TEAM' && (!team || team.members.length + 1 < competition.minTeamMembers || team.members.length + 1 > competition.maxTeamMembers)) ||
@@ -125,7 +125,7 @@ export function RegistrationForm({
             {isSubmitting ? "Memproses..." : "Konfirmasi & Daftar Lomba"}
           </Button>
           <Link href="/competitions" className="w-full sm:w-auto">
-            <Button variant="ghost" size="lg" className="w-full rounded-none" disabled={isSubmitting}>Batal</Button>
+            <Button variant="ghost" size="lg" className="w-full rounded-full" disabled={isSubmitting}>Batal</Button>
           </Link>
         </CardFooter>
       </Card>

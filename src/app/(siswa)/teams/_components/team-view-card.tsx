@@ -208,7 +208,7 @@ export function TeamViewCard({
 
   if (!team) {
     return (
-      <Card className="max-w-xl group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+      <Card className="max-w-xl group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
         <CardHeader>
           <CardTitle>Buat Tim Baru</CardTitle>
           <CardDescription>
@@ -245,7 +245,7 @@ export function TeamViewCard({
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+        <Card className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
           <CardHeader>
             <div className="flex items-center gap-2">
               <UsersIcon className="size-5 text-primary" />
@@ -273,7 +273,7 @@ export function TeamViewCard({
                     )}
                   </Button>
                 </div>
-                <div className="flex items-center gap-3 bg-muted/50 p-3 rounded-none border border-muted">
+                <div className="flex items-center gap-3 bg-muted/50 p-3 rounded-xl border border-muted">
                   <div className="relative">
                     <Avatar className="h-10 w-10 border-2 border-primary/20">
                       <AvatarImage src={team.leader.avatarUrl || ""} alt={team.leader.fullName} />
@@ -281,7 +281,7 @@ export function TeamViewCard({
                         {team.leader.fullName.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="absolute -bottom-1 -right-1 bg-background rounded-none p-0.5">
+                    <div className="absolute -bottom-1 -right-1 bg-background rounded-full p-0.5">
                       <StarIcon className="size-4 text-yellow-500 fill-yellow-500 drop-shadow-sm" />
                     </div>
                   </div>
@@ -302,18 +302,18 @@ export function TeamViewCard({
               <div className="pt-2">
                 <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                   Anggota Tim 
-                  <span className="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-none">
+                  <span className="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded-full">
                     {team.members.length}
                   </span>
                 </h4>
                 {team.members.length === 0 ? (
-                  <div className="bg-muted/30 border border-dashed border-muted-foreground/20 rounded-none p-4 text-center">
+                  <div className="bg-muted/30 border border-dashed border-muted-foreground/20 rounded-xl p-4 text-center">
                     <p className="text-sm text-muted-foreground">Belum ada anggota yang bergabung.</p>
                   </div>
                 ) : (
                   <div className="grid gap-2">
                     {team.members.map((member) => (
-                      <div key={member.id} className="flex items-center justify-between gap-3 bg-card p-3 rounded-none border border-muted/60 shadow-sm hover:shadow-md hover:border-primary/20 transition-all">
+                      <div key={member.id} className="flex items-center justify-between gap-3 bg-card p-3 rounded-xl border border-muted/60 shadow-sm hover:shadow-md hover:border-primary/20 transition-all">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-9 w-9">
                             <AvatarImage src={member.avatarUrl || ""} alt={member.fullName} />
@@ -369,7 +369,7 @@ export function TeamViewCard({
 
         {isLeader && (
           <div className="flex flex-col gap-6">
-            <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+            <Card className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
               <CardHeader>
                 <CardTitle>Tambah Anggota</CardTitle>
                 <CardDescription>
@@ -396,7 +396,7 @@ export function TeamViewCard({
                           disabled={isSubmitting || team.isRegistered}
                         />
                         {showDropdown && searchQuery.length >= 3 && (
-                          <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-muted/60 shadow-md rounded-none overflow-hidden z-10 max-h-60 overflow-y-auto">
+                          <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-muted/60 shadow-md rounded-xl overflow-hidden z-10 max-h-60 overflow-y-auto">
                             {isSearching ? (
                               <div className="p-3 text-sm text-muted-foreground text-center animate-pulse">Mencari...</div>
                             ) : searchResults.length > 0 ? (
@@ -444,7 +444,7 @@ export function TeamViewCard({
             </Card>
 
             {peers.length > 0 && (
-              <Card className="group rounded-none border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
+              <Card className="group rounded-2xl border-muted/60 bg-card/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#5C7C99]/30 hover:bg-card">
                 <CardHeader>
                   <CardTitle className="text-lg">Saran Anggota</CardTitle>
                   <CardDescription>
@@ -454,7 +454,7 @@ export function TeamViewCard({
                 <CardContent>
                   <div className="grid gap-2 max-h-60 overflow-y-auto">
                     {peers.map((peer) => (
-                      <div key={peer.id} className="flex items-center justify-between gap-3 bg-card p-3 rounded-none border border-muted/60 shadow-sm hover:shadow-md transition-all">
+                      <div key={peer.id} className="flex items-center justify-between gap-3 bg-card p-3 rounded-xl border border-muted/60 shadow-sm hover:shadow-md transition-all">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
                             <AvatarImage src={peer.avatarUrl || ""} alt={peer.fullName || "User Avatar"} />

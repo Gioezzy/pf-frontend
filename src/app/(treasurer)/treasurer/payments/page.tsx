@@ -20,14 +20,14 @@ export default function PaymentsPage() {
       <div className="mx-auto w-full max-w-6xl">
 
         {/* Premium Banner Section */}
-        <div className="mb-8 relative overflow-hidden rounded-none bg-gradient-to-br from-emerald-500/20 via-emerald-500/5 to-background border border-emerald-500/20 p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:border-emerald-500/40 group">
+        <div className="mb-8 relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500/20 via-emerald-500/5 to-background border border-emerald-500/20 p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:border-emerald-500/40 group">
           <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
             <WalletIcon className="w-64 h-64 rotate-12 text-emerald-600" />
           </div>
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="space-y-3">
-              <div className="inline-flex items-center rounded-none border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-600 shadow-sm backdrop-blur-md">
-                <span className="flex h-2 w-2 rounded-none bg-emerald-500 mr-2 animate-pulse"></span>
+              <div className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-600 shadow-sm backdrop-blur-md">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
                 Divisi Bendahara
               </div>
               <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">

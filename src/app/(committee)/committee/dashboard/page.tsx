@@ -20,14 +20,14 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8 pb-10 px-4 lg:px-6">
       {/* Premium Banner Section */}
-      <div className="relative overflow-hidden rounded-none bg-gradient-to-br from-[#E7A93C]/20 via-[#E7A93C]/5 to-background border border-[#E7A93C]/20 p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:border-[#E7A93C]/40 group">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#E7A93C]/20 via-[#E7A93C]/5 to-background border border-[#E7A93C]/20 p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:border-[#E7A93C]/40 group">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
           <ShieldCheck className="w-64 h-64 rotate-12" />
         </div>
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center rounded-none border border-[#E7A93C]/20 bg-[#E7A93C]/10 px-3 py-1 text-sm font-medium text-[#E7A93C] shadow-sm backdrop-blur-md">
-              <span className="flex h-2 w-2 rounded-none bg-[#E7A93C] mr-2 animate-pulse"></span>
+            <div className="inline-flex items-center rounded-full border border-[#E7A93C]/20 bg-[#E7A93C]/10 px-3 py-1 text-sm font-medium text-[#E7A93C] shadow-sm backdrop-blur-md">
+              <span className="flex h-2 w-2 rounded-full bg-[#E7A93C] mr-2 animate-pulse"></span>
               Panitia Cabang Lomba
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
