@@ -33,8 +33,8 @@ export function RegistrationList({
   const { profile } = useProfileContext();
   const userId = profile?.id;
 
-  function handleFileChange(regId: string, type: 'payment' | 'identity', files?: FileList | null) {
-    if (!files) return;
+  function handleFileChange(regId: string, type: 'payment' | 'identity', files: FileList | null, index: number = 0) {
+    if (!files || !files[0]) return;
     
     setFilesToUpload((prev) => {
       const existing = prev[regId] || {};
@@ -42,26 +42,28 @@ export function RegistrationList({
       if (type === 'payment') {
         return { ...prev, [regId]: { ...existing, payment: files[0] } };
       } else {
-        const fileArray = Array.from(files);
-        return { ...prev, [regId]: { ...existing, identity: fileArray } };
+        const currentIdentity = [...(existing.identity || [])];
+        currentIdentity[index] = files[0];
+        return { ...prev, [regId]: { ...existing, identity: currentIdentity } };
       }
     });
   }
 
   async function handleUploadPayment(id: string, isTeam: boolean) {
     const files = filesToUpload[id];
-    if (!files?.payment || !files?.identity || files.identity.length === 0) {
+    const validIdentityFiles = files?.identity?.filter(Boolean) || [];
+    if (!files?.payment || validIdentityFiles.length === 0) {
       toast.error("Harap unggah bukti pembayaran dan kartu pelajar/identitas.");
       return;
     }
     
-    if (isTeam && files.identity.length < 2) {
-       toast.warning("Mohon unggah semua kartu pelajar anggota tim.");
-    }
+    // For teams, we can check if the number of files matches the number of members
+    // but the backend only requires array of files. We'll pass the valid ones.
+    // We will validate length on the UI before allowing submit.
 
     setUploadingId(id);
     try {
-      await registrationService.uploadPaymentProof(id, files.payment, files.identity);
+      await registrationService.uploadPaymentProof(id, files.payment, validIdentityFiles as File[]);
       toast.success("Bukti pembayaran berhasil diunggah");
       onMutate();
     } catch (error: unknown) {
@@ -168,7 +170,22 @@ export function RegistrationList({
           </div>
           
           <div className="md:w-[320px] shrink-0 border-t md:border-t-0 md:border-l border-muted/30 p-6 bg-muted/5 flex flex-col justify-center">
-            {reg.status === 'PENDING_PAYMENT' || reg.status === 'REJECTED' ? (
+            {(() => {
+              const participants = [];
+              if (reg.teamName) {
+                participants.push({ id: 'leader', label: `Ketua (${reg.participantName})` });
+                reg.members?.forEach((m, idx) => {
+                  participants.push({ id: `member-${idx}`, label: `Anggota ${idx + 1} (${m.name})` });
+                });
+              } else {
+                participants.push({ id: 'individual', label: `Peserta (${reg.participantName})` });
+              }
+
+              const expectedFileCount = participants.length;
+              const currentFiles = filesToUpload[reg.id]?.identity?.filter(Boolean) || [];
+              const isUploadReady = filesToUpload[reg.id]?.payment && currentFiles.length === expectedFileCount;
+
+              return reg.status === 'PENDING_PAYMENT' || reg.status === 'REJECTED' ? (
               (!reg.teamName || reg.teamLeaderId === userId) ? (
                 <div className="flex flex-col gap-4 w-full md:w-64">
                   <div className="flex flex-col gap-2">
@@ -184,24 +201,32 @@ export function RegistrationList({
                       onChange={(e) => handleFileChange(reg.id, 'payment', e.target.files)}
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor={`identity-${reg.id}`} className="text-xs text-muted-foreground">
-                      2. Unggah Kartu Pelajar (Ketua & Anggota)
+                  <div className="flex flex-col gap-2 mt-2">
+                    <Label className="text-xs text-muted-foreground font-semibold">
+                      2. Unggah Kartu Pelajar
                     </Label>
-                    <Input 
-                      id={`identity-${reg.id}`}
-                      type="file" 
-                      multiple
-                      accept="image/*,.pdf"
-                      disabled={uploadingId === reg.id}
-                      className="flex-1 text-xs"
-                      onChange={(e) => handleFileChange(reg.id, 'identity', e.target.files)}
-                    />
-                    <span className="text-[10px] text-muted-foreground">Anda dapat memilih lebih dari satu file sekaligus. Harap lampirkan KTS untuk semua anggota tim.</span>
+                    <div className="space-y-3">
+                      {participants.map((p, idx) => (
+                        <div key={p.id} className="flex flex-col gap-1.5 p-2 border rounded-md bg-white">
+                          <Label htmlFor={`identity-${reg.id}-${idx}`} className="text-[10px] font-medium text-primary">
+                            {p.label}
+                          </Label>
+                          <Input 
+                            id={`identity-${reg.id}-${idx}`}
+                            type="file" 
+                            accept="image/*,.pdf"
+                            disabled={uploadingId === reg.id}
+                            className="flex-1 text-[10px] h-7 px-2"
+                            onChange={(e) => handleFileChange(reg.id, 'identity', e.target.files, idx)}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <Button 
                     size="sm" 
-                    disabled={uploadingId === reg.id || !filesToUpload[reg.id]?.payment || !filesToUpload[reg.id]?.identity?.length}
+                    className="mt-2"
+                    disabled={uploadingId === reg.id || !isUploadReady}
                     onClick={() => handleUploadPayment(reg.id, !!reg.teamName)}
                   >
                     {uploadingId === reg.id ? "Mengunggah..." : "Kirim Berkas"}
@@ -269,7 +294,8 @@ export function RegistrationList({
                   )}
                 </div>
               </div>
-              ) : null}
+              ) : null;
+            })()}
           </div>
         </Card>
       ))}
