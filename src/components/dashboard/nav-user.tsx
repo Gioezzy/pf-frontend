@@ -70,9 +70,8 @@ export function NavUser({
 
         toast.success("Berhasil log out.", { id: loadingId });
 
-        // Gunakan router bawaan Next.js untuk mencegah bug caching RSC payload di browser (terutama mobile)
-        router.replace("/login");
-        router.refresh();
+        // Gunakan full reload ke halaman login untuk membersihkan seluruh state React, memory cache, dan Router Cache Next.js
+        window.location.href = "/login";
       }
   };
 
