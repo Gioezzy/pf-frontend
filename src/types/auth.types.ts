@@ -18,6 +18,7 @@ export interface RegisterPayload {
   fullName: string;
   phoneNumber: string;
   institution: string;
+  npsn?: string;
 }
 
 /** Body untuk POST /auth/login */
@@ -47,6 +48,7 @@ export interface ResetPasswordPayload {
 export interface UpdateUserPayload {
   fullName?: string;
   institution?: string;
+  npsn?: string;
   /** Wajib diisi bersamaan dengan newPassword jika ingin ganti password */
   currentPassword?: string;
   /** Wajib diisi bersamaan dengan currentPassword jika ingin ganti password */
@@ -105,6 +107,7 @@ export interface User {
   avatarUrl: string | null;
   phoneNumber: string;
   institution: string;
+  npsn: string | null;
   role: UserRole;
   isActive: boolean;
   createdAt: string;

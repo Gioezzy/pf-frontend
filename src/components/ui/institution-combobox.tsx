@@ -10,6 +10,7 @@ interface InstitutionComboboxProps {
   name?: string;
   value: string;
   onChange: (value: string) => void;
+  onNpsnChange?: (npsn: string) => void;
   placeholder?: string;
   required?: boolean;
   className?: string;
@@ -28,6 +29,7 @@ export function InstitutionCombobox({
   name,
   value,
   onChange,
+  onNpsnChange,
   placeholder = "Ketik nama sekolah atau NPSN (min. 3 karakter)...",
   required,
   className,
@@ -101,9 +103,12 @@ export function InstitutionCombobox({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  function handleSelect(schoolName: string) {
+  function handleSelect(schoolName: string, npsn?: string) {
     setQuery(schoolName);
     onChange(schoolName);
+    if (onNpsnChange && npsn) {
+      onNpsnChange(npsn);
+    }
     setOpen(false);
   }
 
@@ -111,6 +116,9 @@ export function InstitutionCombobox({
     const val = e.target.value;
     setQuery(val);
     onChange(val);
+    if (onNpsnChange) {
+      onNpsnChange("");
+    }
     setOpen(true);
   }
 
@@ -150,7 +158,7 @@ export function InstitutionCombobox({
                     key={school.npsn || school.id || idx}
                     onMouseDown={(e) => {
                       e.preventDefault();
-                      handleSelect(school.nama);
+                      handleSelect(school.nama, school.npsn);
                     }}
                     className={cn(
                       "cursor-pointer px-4 py-2 hover:bg-[#FAF8F5] hover:text-[#2C2621] transition-colors border-b border-slate-50 last:border-0",

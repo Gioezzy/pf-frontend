@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { useProfile } from "@/src/hooks/use-profile";
 import { userService, storageService } from "@/src/services";
@@ -44,6 +44,7 @@ export function ProfilePage() {
   // Form State
   const [fullName, setFullName] = useState("");
   const [institution, setInstitution] = useState("");
+  const [npsn, setNpsn] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
@@ -57,13 +58,13 @@ export function ProfilePage() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [isCropDialogOpen, setIsCropDialogOpen] = useState(false);
 
-  // Initialize form when profile loads
-  if (profile && !fullName && fullName !== profile.fullName) {
-    setFullName(profile.fullName || "");
-  }
-  if (profile && !institution && institution !== profile.institution) {
-    setInstitution(profile.institution || "");
-  }
+  useEffect(() => {
+    if (profile) {
+      setFullName((prev) => prev || profile.fullName || "");
+      setInstitution((prev) => prev || profile.institution || "");
+      setNpsn((prev) => prev || profile.npsn || "");
+    }
+  }, [profile]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +86,7 @@ export function ProfilePage() {
       await userService.updateProfile(profile.id, {
         fullName: fullName || undefined,
         institution: institution || undefined,
+        npsn: npsn || undefined,
         currentPassword: currentPassword || undefined,
         newPassword: newPassword || undefined,
       });
@@ -280,10 +282,13 @@ export function ProfilePage() {
                       id="institution"
                       value={institution}
                       onChange={setInstitution}
+                      onNpsnChange={setNpsn}
                     />
                   </div>
                 )}
               </div>
+
+
 
               <div className="space-y-2">
                 <Label htmlFor="fullName">Nama Lengkap</Label>

@@ -21,6 +21,7 @@ export function RegisterForm({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [institution, setInstitution] = useState("");
+  const [npsn, setNpsn] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ export function RegisterForm({
       email: formData.get("email") as string,
       phoneNumber: formData.get("phoneNumber") as string,
       institution,
+      npsn: npsn || undefined,
       password: formData.get("password") as string,
     };
 
@@ -94,9 +96,12 @@ export function RegisterForm({
             name="institution"
             value={institution}
             onChange={setInstitution}
+            onNpsnChange={setNpsn}
             required
           />
         </Field>
+
+
 
         <Field>
           <FieldLabel htmlFor="password" className="text-[#2C2621] font-semibold">Password</FieldLabel>

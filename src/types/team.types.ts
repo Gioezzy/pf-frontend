@@ -8,6 +8,8 @@ export interface TeamMember {
   fullName: string;
   joinedAt: string;
   avatarUrl: string | null;
+  institution?: string;
+  npsn?: string;
 }
 
 /** Ketua tim */
@@ -16,6 +18,8 @@ export interface TeamLeader {
   fullName: string;
   email: string;
   avatarUrl: string | null;
+  institution?: string;
+  npsn?: string;
 }
 
 /** Response dari POST /teams, POST /teams/members, GET /teams/my-team */
@@ -25,6 +29,7 @@ export interface Team {
   institution: string;
   leader: TeamLeader;
   members: TeamMember[];
+  isRegistered: boolean;
   createdAt: string;
 }
 
