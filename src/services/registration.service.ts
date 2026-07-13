@@ -30,9 +30,11 @@ export async function getMyRegistrations(): Promise<Registration[]> {
 export async function uploadPaymentProof(
   id: string,
   file: File,
+  identityCardFiles: File[],
 ): Promise<Registration> {
   const formData = new FormData();
   formData.append('file', file);
+  identityCardFiles.forEach(f => formData.append('identityCardFile', f));
 
   const { data } = await api.post<Registration>(
     `/registrations/${id}/payment-proof`,
@@ -70,9 +72,11 @@ export async function verifyPayment(
  */
 export async function getVerifiedParticipants(
   competitionId: string,
+  config?: import('axios').AxiosRequestConfig
 ): Promise<Registration[]> {
   const { data } = await api.get<Registration[]>(
     `/registrations/admin/competition/${competitionId}/verified`,
+    config
   );
   return data;
 }

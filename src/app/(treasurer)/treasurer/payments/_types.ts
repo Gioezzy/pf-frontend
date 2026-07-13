@@ -31,6 +31,7 @@ export interface Payment {
   paymentAttempts?: {
     id: string
     proofOfPaymentUrl: string
+    identityCardUrl?: string | null
     status: string
     rejectionReason?: string | null
     verifiedAt?: string | null

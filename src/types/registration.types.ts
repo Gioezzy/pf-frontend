@@ -77,6 +77,8 @@ export interface Registration {
 
   /** URL bukti pembayaran yang diunggah peserta (null jika belum unggah). */
   proofOfPaymentUrl: string | null;
+  /** Array URL kartu identitas / tanda siswa yang diunggah peserta. */
+  identityCardUrls: string[];
   /** Waktu bukti pembayaran diunggah. */
   proofUploadedAt: string | null;
 
@@ -88,6 +90,7 @@ export interface Registration {
   paymentAttempts: {
     id: string;
     proofOfPaymentUrl: string;
+    identityCardUrls?: string[];
     status: string;
     rejectionReason?: string | null;
     verifiedAt?: string | null;

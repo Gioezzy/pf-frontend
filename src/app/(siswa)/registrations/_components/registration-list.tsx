@@ -29,15 +29,39 @@ export function RegistrationList({
   onMutate: () => void;
 }) {
   const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const [filesToUpload, setFilesToUpload] = useState<Record<string, { payment?: File; identity?: File[] }>>({});
   const { profile } = useProfileContext();
   const userId = profile?.id;
 
-  async function handleUploadPayment(id: string, file: File | undefined) {
-    if (!file) return;
+  function handleFileChange(regId: string, type: 'payment' | 'identity', files?: FileList | null) {
+    if (!files) return;
+    
+    setFilesToUpload((prev) => {
+      const existing = prev[regId] || {};
+      
+      if (type === 'payment') {
+        return { ...prev, [regId]: { ...existing, payment: files[0] } };
+      } else {
+        const fileArray = Array.from(files);
+        return { ...prev, [regId]: { ...existing, identity: fileArray } };
+      }
+    });
+  }
+
+  async function handleUploadPayment(id: string, isTeam: boolean) {
+    const files = filesToUpload[id];
+    if (!files?.payment || !files?.identity || files.identity.length === 0) {
+      toast.error("Harap unggah bukti pembayaran dan kartu pelajar/identitas.");
+      return;
+    }
+    
+    if (isTeam && files.identity.length < 2) {
+       toast.warning("Mohon unggah semua kartu pelajar anggota tim.");
+    }
 
     setUploadingId(id);
     try {
-      await registrationService.uploadPaymentProof(id, file);
+      await registrationService.uploadPaymentProof(id, files.payment, files.identity);
       toast.success("Bukti pembayaran berhasil diunggah");
       onMutate();
     } catch (error: unknown) {
@@ -117,8 +141,17 @@ export function RegistrationList({
                           <div className="text-muted-foreground flex flex-col gap-1 mt-2">
                             <p>Waktu: {new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(attempt.uploadedAt))}</p>
                             <a href={attempt.proofOfPaymentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline w-fit">
-                              Lihat File Bukti
+                              Lihat Bukti Pembayaran
                             </a>
+                            {attempt.identityCardUrls && attempt.identityCardUrls.length > 0 && (
+                              <div className="flex flex-col gap-1 mt-1">
+                                {attempt.identityCardUrls.map((url, i) => (
+                                  <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline w-fit">
+                                    Lihat Kartu Pelajar {attempt.identityCardUrls!.length > 1 ? `Anggota ${i+1}` : ''}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
                             {attempt.rejectionReason && (
                               <p className="text-destructive mt-1 bg-destructive/10 p-2 rounded">
                                 <strong>Catatan Penolakan:</strong> {attempt.rejectionReason}
@@ -137,21 +170,42 @@ export function RegistrationList({
           <div className="md:w-[320px] shrink-0 border-t md:border-t-0 md:border-l border-muted/30 p-6 bg-muted/5 flex flex-col justify-center">
             {reg.status === 'PENDING_PAYMENT' || reg.status === 'REJECTED' ? (
               (!reg.teamName || reg.teamLeaderId === userId) ? (
-                <div className="flex flex-col gap-2 w-full md:w-64">
-                  <Label htmlFor={`payment-${reg.id}`} className="text-xs text-muted-foreground">
-                    Unggah Bukti Pembayaran
-                  </Label>
-                  <div className="flex gap-2">
+                <div className="flex flex-col gap-4 w-full md:w-64">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor={`payment-${reg.id}`} className="text-xs text-muted-foreground">
+                      1. Unggah Bukti Pembayaran
+                    </Label>
                     <Input 
                       id={`payment-${reg.id}`}
                       type="file" 
                       accept="image/*,.pdf"
                       disabled={uploadingId === reg.id}
-                      className="flex-1"
-                      onChange={(e) => handleUploadPayment(reg.id, e.target.files?.[0])}
+                      className="flex-1 text-xs"
+                      onChange={(e) => handleFileChange(reg.id, 'payment', e.target.files)}
                     />
                   </div>
-                  {uploadingId === reg.id && <span className="text-xs text-muted-foreground animate-pulse">Mengunggah...</span>}
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor={`identity-${reg.id}`} className="text-xs text-muted-foreground">
+                      2. Unggah Kartu Pelajar (Ketua & Anggota)
+                    </Label>
+                    <Input 
+                      id={`identity-${reg.id}`}
+                      type="file" 
+                      multiple
+                      accept="image/*,.pdf"
+                      disabled={uploadingId === reg.id}
+                      className="flex-1 text-xs"
+                      onChange={(e) => handleFileChange(reg.id, 'identity', e.target.files)}
+                    />
+                    <span className="text-[10px] text-muted-foreground">Anda dapat memilih lebih dari satu file sekaligus. Harap lampirkan KTS untuk semua anggota tim.</span>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    disabled={uploadingId === reg.id || !filesToUpload[reg.id]?.payment || !filesToUpload[reg.id]?.identity?.length}
+                    onClick={() => handleUploadPayment(reg.id, !!reg.teamName)}
+                  >
+                    {uploadingId === reg.id ? "Mengunggah..." : "Kirim Berkas"}
+                  </Button>
                 </div>
               ) : (
                 <div className="text-xs text-muted-foreground p-3 border rounded bg-muted/20 text-center w-full md:w-64">
@@ -183,14 +237,14 @@ export function RegistrationList({
                 )}
                 <div className="flex flex-col gap-2 mt-2 pt-2 border-t">
                   <p className="text-xs text-muted-foreground font-medium mb-1">Dokumen Peserta:</p>
-                  <a href="/docs/Cetak Kartu Peserta_20260709_190857_0000.pdf" download>
+                  <a href="/docs/kartu_peserta.pdf" download>
                     <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                       <Download className="h-3.5 w-3.5" />
                       Unduh Kartu Peserta
                     </Button>
                   </a>
                   {reg.competitionName?.toLowerCase().includes("lkti") && (
-                    <a href="/docs/Galaxy Research Odyssey (LKTI).docx" download>
+                    <a href="/docs/Galaxy_Research_Odyssey_LKTI.docx" download>
                       <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                         <FileText className="h-3.5 w-3.5" />
                         Pernyataan Orisinalitas (LKTI)
@@ -198,7 +252,7 @@ export function RegistrationList({
                     </a>
                   )}
                   {reg.competitionName?.toLowerCase().includes("video") && (
-                    <a href="/docs/Video Kreatif.docx" download>
+                    <a href="/docs/Video_Kreatif.docx" download>
                       <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                         <FileText className="h-3.5 w-3.5" />
                         Pernyataan Orisinalitas (Video)
@@ -206,7 +260,7 @@ export function RegistrationList({
                     </a>
                   )}
                   {(reg.competitionName?.toLowerCase().includes("vortex") || reg.competitionName?.toLowerCase().includes("poster")) && (
-                    <a href="/docs/VORTEX (DIGITAL POSTER).docx" download>
+                    <a href="/docs/VORTEX_DIGITAL POSTER.docx" download>
                       <Button variant="secondary" size="sm" className="w-full justify-start gap-2 text-xs">
                         <FileText className="h-3.5 w-3.5" />
                         Pernyataan Orisinalitas (Poster)

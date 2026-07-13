@@ -276,8 +276,29 @@ export function PaymentsTableCard({
                         {attempt.status}
                       </Badge>
                     </div>
-                    <div className="flex justify-center bg-background rounded-md p-2 border">
-                      <img src={attempt.proofOfPaymentUrl} alt="Bukti Pembayaran" className="max-h-[40vh] rounded-md object-contain" />
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <p className="text-xs font-semibold text-muted-foreground mb-2">Bukti Pembayaran</p>
+                        <div className="flex justify-center bg-background rounded-md p-2 border">
+                          <img src={attempt.proofOfPaymentUrl} alt="Bukti Pembayaran" className="max-h-[40vh] rounded-md object-contain" />
+                        </div>
+                      </div>
+                      
+                      {attempt.identityCardUrls && attempt.identityCardUrls.length > 0 && (
+                        <div>
+                          <p className="text-xs font-semibold text-muted-foreground mb-2">
+                            Kartu Pelajar / KTS ({attempt.identityCardUrls.length} File)
+                          </p>
+                          <div className="flex flex-wrap gap-4">
+                            {attempt.identityCardUrls.map((url, i) => (
+                              <div key={i} className="flex flex-col items-center gap-2 bg-background rounded-md p-2 border">
+                                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">File {i+1}</span>
+                                <img src={url} alt={`Kartu Pelajar ${i+1}`} className="max-h-[30vh] rounded-md object-contain" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="text-sm text-muted-foreground flex flex-col gap-1">
                       <p>Diunggah: {formatDate(attempt.uploadedAt)}</p>
