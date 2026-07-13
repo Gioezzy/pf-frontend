@@ -26,19 +26,35 @@ export function useRegistrationsPage() {
   >({})
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
     async function fetchCompetitions() {
       setIsLoadingCompetitions(true)
       try {
-        const data = await competitionService.getAllCompetitions()
-        setCompetitions(data)
-      } catch (error) {
+        const data = await competitionService.getAllCompetitions({ signal: controller.signal })
+        if (isMounted) {
+          setCompetitions(data)
+          if (data.length > 0 && data[0].id) {
+            setActiveCompetition(data[0].id)
+          }
+        }
+      } catch (error: unknown) {
+        const isCanceled = error instanceof Error &&
+          (error.name === 'CanceledError' || error.message?.includes('canceled'));
+        if (isCanceled) return;
         console.error("Gagal memuat daftar lomba:", error)
         toast.error("Gagal memuat daftar lomba.")
       } finally {
-        setIsLoadingCompetitions(false)
+        if (isMounted) setIsLoadingCompetitions(false)
       }
     }
     void fetchCompetitions()
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    }
   }, [])
 
   useEffect(() => {
@@ -46,21 +62,32 @@ export function useRegistrationsPage() {
       setRegistrations([])
       return
     }
+
+    const controller = new AbortController()
+
     async function fetchRegistrations(competitionId: string) {
       setIsLoadingRegistrations(true)
       try {
         const data =
-          await registrationService.getVerifiedParticipants(competitionId)
+          await registrationService.getVerifiedParticipants(competitionId, { signal: controller.signal })
         setRegistrations(data)
         setPendingTitles({})
-      } catch (error) {
+      } catch (error: unknown) {
+        const isCanceled = error instanceof Error &&
+          (error.name === 'CanceledError' || error.message?.includes('canceled'));
+        if (isCanceled) return;
         console.error("Gagal memuat data pendaftaran:", error)
         toast.error("Gagal memuat data pendaftaran untuk lomba ini.")
       } finally {
         setIsLoadingRegistrations(false)
       }
     }
+    
     void fetchRegistrations(activeCompetition)
+
+    return () => {
+      controller.abort()
+    }
   }, [activeCompetition])
 
   function setPendingTitle(registrationId: string, title: ChampionTitle) {

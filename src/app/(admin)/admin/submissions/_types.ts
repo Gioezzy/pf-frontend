@@ -1,14 +1,8 @@
 // admin/submissions/_types.ts
+import type { Submission } from "@/src/types/submission.types"
 
-export interface SubmissionRow {
-  id: string
-  title: string
-  description?: string | null
-  fileUrl: string
-  submittedAt: string
-  participantName?: string
-  teamName?: string
-  participantEmail?: string
+/** SubmissionRow extends the API Submission type with extra participant details for the admin table. */
+export interface SubmissionRow extends Submission {
   participantAvatar?: string | null
   participantPhone?: string | null
   institution?: string | null

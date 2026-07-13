@@ -26,21 +26,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
     
     async function loadProfile() {
-      const token = typeof window !== "undefined" ? localStorage.getItem('accessToken') : null;
-
-      if (!token) {
-        if (isMounted) {
-          setProfile(null);
-          setIsLoading(false);
-        }
-        return;
-      }
-
       setIsLoading(true);
       try {
-        const data = await userService.getMyProfile();
+        const data = await userService.getMyProfile({ signal: controller.signal });
         if (isMounted) {
           setProfile(data);
           if (typeof window !== "undefined" && localStorage.getItem("welcomeToast") === "true") {
@@ -48,7 +39,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
             localStorage.removeItem("welcomeToast");
           }
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        const isCanceled = error instanceof Error &&
+          (error.name === 'CanceledError' || error.message?.includes('canceled'));
+        if (isCanceled) return;
         if (isAxiosError(error) && error.response?.status === 401) {
           if (isMounted) setProfile(null);
           if (typeof window !== "undefined") localStorage.removeItem('accessToken');
@@ -64,15 +58,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
     
     if (pathname && !pathname.startsWith('/login') && !pathname.startsWith('/register') && !pathname.startsWith('/verify') && !pathname.startsWith('/forgot-password') && !pathname.startsWith('/reset-password')) {
-      void loadProfile();
+      if (!profile || refetchTrigger > 0) {
+        void loadProfile();
+      } else {
+        setIsLoading(false);
+      }
     } else {
       setIsLoading(false);
     }
     
     return () => {
       isMounted = false;
+      controller.abort();
     };
-  }, [refetchTrigger, pathname]);
+  }, [refetchTrigger, pathname]); // Hati-hati dengan dependensi profile, kita abaikan agar tidak loop
 
   return (
     <UserContext.Provider value={{ profile, isLoading, refetch }}>

@@ -24,11 +24,12 @@ export function useSubmissionsPage() {
   // EFFECT 1: Ambil daftar lomba (HANYA BERJALAN 1x SAAT HALAMAN DIBUKA)
   useEffect(() => {
     let isMounted = true
+    const controller = new AbortController()
 
     async function fetchCompetitions() {
       setIsLoadingCompetitions(true)
       try {
-        const data = await competitionService.getAllCompetitions()
+        const data = await competitionService.getAllCompetitions({ signal: controller.signal })
         // Hanya lomba yang memang punya kriteria requiresSubmission yang
         // relevan di halaman ini, karena backend menolak (400) request
         // submissions untuk lomba yang requiresSubmission = false.
@@ -41,7 +42,10 @@ export function useSubmissionsPage() {
             setCompetitionId(submissionCompetitions[0].id)
           }
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        const isCanceled = error instanceof Error &&
+          (error.name === 'CanceledError' || error.message?.includes('canceled'));
+        if (isCanceled) return;
         console.error("Gagal memuat daftar lomba:", error)
         toast.error("Gagal memuat daftar lomba.")
       } finally {
@@ -50,7 +54,11 @@ export function useSubmissionsPage() {
     }
 
     void fetchCompetitions()
-    return () => { isMounted = false }
+
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
   }, []) // <-- Dependency array kosong, aman dari looping.
 
   // EFFECT 2: Ambil data submission setiap kali Pilihan Lomba berubah
@@ -62,14 +70,19 @@ export function useSubmissionsPage() {
 
     let isMounted = true
 
+    const controller = new AbortController()
+
     async function fetchSubmissions() {
       setIsLoadingSubmissions(true)
       try {
-        const data = await submissionService.getSubmissionsByCompetition(competitionId)
+        const data = await submissionService.getSubmissionsByCompetition(competitionId, { signal: controller.signal })
         if (isMounted) {
-          setSubmissions(data as unknown as SubmissionRow[])
+          if (isMounted) setSubmissions(data)
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        const isCanceled = err instanceof Error &&
+          (err.name === 'CanceledError' || err.message?.includes('canceled'));
+        if (isCanceled) return;
         console.error("Gagal memuat data karya:", err)
         toast.error("Gagal memuat data karya peserta")
       } finally {
@@ -78,7 +91,10 @@ export function useSubmissionsPage() {
     }
 
     void fetchSubmissions()
-    return () => { isMounted = false }
+    return () => { 
+      isMounted = false 
+      controller.abort()
+    }
   }, [competitionId, refetchTrigger])
 
   // Fungsi untuk mengganti lomba yang sedang aktif dilihat
