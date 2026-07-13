@@ -264,7 +264,7 @@ export function TeamViewCard({
                     onClick={() => setIsLeaveModalOpen(true)} 
                     disabled={isSubmitting || team.isRegistered} 
                     className="h-7 text-xs px-2"
-                    title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : ""}
+                    title={team.isRegistered ? "Tim sedang dalam proses pendaftaran lomba" : ""}
                   >
                     {isLeader ? (
                       <><Trash2Icon className="h-3 w-3 mr-1" />Batalkan Tim</>
@@ -342,7 +342,7 @@ export function TeamViewCard({
                               onClick={() => setMemberToTransfer(member.userId)} 
                               disabled={isSubmitting || team.isRegistered} 
                               className="h-7 w-7 p-0 text-muted-foreground hover:text-primary"
-                              title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : "Jadikan Ketua"}
+                              title={team.isRegistered ? "Tim sedang dalam proses pendaftaran lomba" : "Jadikan Ketua"}
                             >
                               <ArrowRightLeftIcon className="h-4 w-4" />
                             </Button>
@@ -352,7 +352,7 @@ export function TeamViewCard({
                               onClick={() => setMemberToRemove(member.userId)} 
                               disabled={isSubmitting || team.isRegistered} 
                               className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
-                              title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : "Keluarkan Anggota"}
+                              title={team.isRegistered ? "Tim sedang dalam proses pendaftaran lomba" : "Keluarkan Anggota"}
                             >
                               <Trash2Icon className="h-4 w-4" />
                             </Button>
@@ -491,7 +491,7 @@ export function TeamViewCard({
                           }}
                           disabled={isSubmitting || team.isRegistered}
                           className="h-7 text-xs"
-                          title={team.isRegistered ? "Tim sudah terdaftar & terverifikasi lomba" : ""}
+                          title={team.isRegistered ? "Tim sedang dalam proses pendaftaran lomba" : ""}
                         >
                           Tambah
                         </Button>
