@@ -8,6 +8,7 @@ import type {
   CreateTeamPayload,
   Team,
 } from '../types/team.types';
+import type { User } from '../types/auth.types';
 
 /**
  * Membuat tim baru. User yang membuat otomatis menjadi ketua.
@@ -66,7 +67,7 @@ export async function transferLeadership(newLeaderId: string): Promise<Team> {
 /**
  * Mendapatkan daftar peserta dari institusi yang sama.
  */
-export async function getInstitutionPeers(): Promise<any[]> {
-  const { data } = await api.get<any[]>('/users/institution-peers');
+export async function getInstitutionPeers(): Promise<User[]> {
+  const { data } = await api.get<User[]>('/users/institution-peers');
   return data;
 }

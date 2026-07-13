@@ -51,7 +51,7 @@ export function TeamViewCard({
   const debouncedSearch = useDebounce(searchQuery, 400);
   const [showDropdown, setShowDropdown] = useState(false);
   
-  const [peers, setPeers] = useState<any[]>([]);
+  const [peers, setPeers] = useState<User[]>([]);
   const [isLoadingPeers, setIsLoadingPeers] = useState(false);
 
   const { profile } = useProfile();
@@ -457,7 +457,7 @@ export function TeamViewCard({
                       <div key={peer.id} className="flex items-center justify-between gap-3 bg-card p-3 rounded-xl border border-muted/60 shadow-sm hover:shadow-md transition-all">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
-                            <AvatarImage src={peer.avatarUrl || ""} alt={peer.fullName} />
+                            <AvatarImage src={peer.avatarUrl || ""} alt={peer.fullName || "User Avatar"} />
                             <AvatarFallback className="text-xs bg-primary/10 text-primary">
                               {peer.fullName?.charAt(0).toUpperCase()}
                             </AvatarFallback>
