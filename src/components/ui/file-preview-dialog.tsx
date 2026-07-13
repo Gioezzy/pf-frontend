@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/src/components/ui/dialog";
-import { Button } from "@/src/components/ui/button";
+import { buttonVariants } from "@/src/components/ui/button";
 import { DownloadIcon, FileIcon } from "lucide-react";
 
 interface FilePreviewDialogProps {
@@ -24,12 +24,16 @@ export function FilePreviewDialog({ isOpen, onClose, fileUrl, fileName = "File",
         <DialogHeader className="p-4 border-b">
           <div className="flex justify-between items-center w-full">
             <DialogTitle className="text-lg font-bold">{fileName}</DialogTitle>
-            <Button variant="outline" size="sm" asChild className="rounded-none">
-              <a href={fileUrl} download target="_blank" rel="noopener noreferrer">
-                <DownloadIcon className="h-4 w-4 mr-2" />
-                Download
-              </a>
-            </Button>
+            <a 
+              href={fileUrl} 
+              download 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={buttonVariants({ variant: "outline", size: "sm", className: "rounded-none" })}
+            >
+              <DownloadIcon className="h-4 w-4 mr-2" />
+              Download
+            </a>
           </div>
           <DialogDescription className="sr-only">Preview of {fileName}</DialogDescription>
         </DialogHeader>
@@ -44,11 +48,15 @@ export function FilePreviewDialog({ isOpen, onClose, fileUrl, fileName = "File",
             <div className="flex flex-col items-center justify-center text-muted-foreground gap-4">
               <FileIcon className="h-16 w-16" />
               <p>Preview format tidak didukung.</p>
-              <Button asChild className="rounded-none">
-                <a href={fileUrl} download target="_blank" rel="noopener noreferrer">
-                  Download File
-                </a>
-              </Button>
+              <a 
+                href={fileUrl} 
+                download 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={buttonVariants({ variant: "default", className: "rounded-none" })}
+              >
+                Download File
+              </a>
             </div>
           )}
         </div>
