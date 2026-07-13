@@ -4,10 +4,12 @@
 import { WalletIcon } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs"
 import { PaymentsTableCard } from "./_components/payments-table-card"
+import { useProfile } from "@/src/hooks/use-profile"
 import { usePayments } from "./_hooks/use-payments"
 
 export default function PaymentsPage() {
   const { payments, isLoading, verifyPayment } = usePayments()
+  const { profile } = useProfile()
 
   const pendingPayments = payments.filter((p) => p.status === "PENDING")
   const verifiedPayments = payments.filter((p) => p.status === "VERIFIED")
@@ -29,9 +31,9 @@ export default function PaymentsPage() {
                 Divisi Bendahara
               </div>
               <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
-                Verifikasi <br className="hidden md:block" />
+                Selamat Datang, <br className="hidden md:block" />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-emerald-400">
-                  Pembayaran
+                  {profile?.fullName || profile?.email || "Bendahara"}
                 </span>
               </h1>
               <p className="text-muted-foreground max-w-xl text-lg mt-2 leading-relaxed">

@@ -3,10 +3,12 @@
 import { OpenCompetitionsCard } from "./_components/open-competitions-card"
 import { QuickLinks } from "./_components/quick-links"
 import { useDashboardOverview } from "./_hooks/use-dashboard-overview"
+import { useProfile } from "@/src/hooks/use-profile"
 import { ShieldAlert, Activity } from "lucide-react"
 
 export default function DashboardPage() {
   const { openCompetitions, isLoading } = useDashboardOverview()
+  const { profile } = useProfile()
 
   return (
     <div className="flex flex-col gap-8 pb-10 px-4 lg:px-6">
@@ -24,7 +26,7 @@ export default function DashboardPage() {
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
               Selamat Datang, <br className="hidden md:block" />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#5C7C99] to-[#3A506B]">
-                Admin PF
+                {profile?.fullName || profile?.email || "Admin PF"}
               </span>
             </h1>
             <p className="text-muted-foreground max-w-xl text-lg mt-2 leading-relaxed">

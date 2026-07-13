@@ -40,7 +40,7 @@ export default function DashboardPage() {
         </div>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Oops! Sesuatu Salah</h1>
-          <p className="text-muted-foreground mt-2">Gagal memuat profil pengguna. Silakan muat ulang halaman.</p>
+          <p className="text-muted22-foreground mt-2">Gagal memuat profil pengguna. Silakan muat ulang halaman.</p>
         </div>
         <Button onClick={() => window.location.reload()} variant="outline">Coba Lagi</Button>
       </div>

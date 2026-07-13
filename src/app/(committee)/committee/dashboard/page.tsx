@@ -4,8 +4,10 @@ import { ClipboardCheck, FileText, Trophy, ShieldCheck } from "lucide-react";
 import { useDashboard } from "./_hooks/use-dashboard";
 import { SummaryCard } from "./_components/summary-card";
 import { CompetitionStatsList } from "./_components/competition-stats-list";
+import { useProfile } from "@/src/hooks/use-profile";
 
 export default function DashboardPage() {
+  const { profile } = useProfile();
   const {
     competitions,
     isLoadingCompetitions,
@@ -30,8 +32,8 @@ export default function DashboardPage() {
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
               Selamat Datang, <br className="hidden md:block" />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#E7A93C] to-[#C58B24]">
-                Committee
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#5C7C99] to-[#3A506B]">
+                {profile?.fullName || profile?.email || "Committee"}
               </span>
             </h1>
             <p className="text-muted-foreground max-w-xl text-lg mt-2 leading-relaxed">
