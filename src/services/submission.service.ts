@@ -67,9 +67,11 @@ export async function deleteSubmission(id: string): Promise<void> {
  */
 export async function getSubmissionsByCompetition(
   competitionId: string,
+  config?: import('axios').AxiosRequestConfig
 ): Promise<Submission[]> {
   const { data } = await api.get<Submission[]>(
     `/submissions/competition/${competitionId}`,
+    config
   );
   return data;
 }

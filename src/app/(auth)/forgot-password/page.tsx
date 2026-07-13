@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
         </div>
       </div>
       <div className="relative hidden bg-gradient-to-br from-[#2C2621] to-[#1a1613] lg:flex lg:flex-col lg:items-center lg:justify-center p-12 border-l border-white/5">
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
+
         <div className="relative w-full max-w-md aspect-square">
           <Image
             src="/mascot/velune.png"

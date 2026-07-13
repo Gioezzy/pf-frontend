@@ -1,4 +1,4 @@
-// src/middleware.ts
+// src/proxy.ts
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
@@ -11,7 +11,7 @@ const dashboardByRole: Record<string, string> = {
   PARTICIPANT: '/dashboard',
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const token = request.cookies.get('accessToken')?.value;
   const path = request.nextUrl.pathname;
 
@@ -83,3 +83,5 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
+
+export { proxy as middleware };

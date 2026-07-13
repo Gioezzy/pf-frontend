@@ -170,7 +170,7 @@ export function Footer() {
             . All rights reserved.
           </p>
           <p className="text-slate-400 text-xs">
-            Designed & Developed for Cosmic Odyssey
+            Designed & Developed for Physics Festival XXV
           </p>
         </div>
       </div>

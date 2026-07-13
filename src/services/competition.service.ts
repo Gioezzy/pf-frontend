@@ -15,9 +15,8 @@ import type {
 } from '../types/competition.types';
 
 /** [KHUSUS ADMIN] Daftar semua lomba beserta wave/gelombang pendaftarannya (Termasuk Non-Aktif). */
-export async function getAllCompetitions(): Promise<Competition[]> {
-  // Menggunakan Axios 'api' bawaan agar Token Admin dan Base URL otomatis terisi
-  const { data } = await api.get<Competition[]>('/competitions/admin/list');
+export async function getAllCompetitions(config?: import('axios').AxiosRequestConfig): Promise<Competition[]> {
+  const { data } = await api.get<Competition[]>('/competitions/admin/list', config);
   return data;
 }
 

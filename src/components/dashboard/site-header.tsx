@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useProfile } from "@/src/hooks/use-profile"
 import { Bell } from "lucide-react"
+import Link from "next/link";
 
 import { Separator } from "../ui/separator"
 import { SidebarTrigger } from "../ui/sidebar"
@@ -19,7 +20,7 @@ export function SiteHeader() {
   else if (profile?.role === "TREASURER") roleDisplay = "Bendahara"
 
   return (
-    <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+    <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-2 border-b bg-background shadow-sm">
       <div className="flex w-full items-center justify-between px-4 lg:px-6">
 
         <div className="flex items-center gap-2">
@@ -28,7 +29,11 @@ export function SiteHeader() {
             orientation="vertical"
             className="mx-2 h-4 data-[orientation=vertical]:self-auto"
           />
-          <h1 className="text-base font-medium">Dashboard {roleDisplay}</h1>
+          <Link href="/admin/dashboard">
+            <h1 className="text-base font-medium hover:text-blue-600 transition-colors cursor-pointer">
+              Dashboard {roleDisplay}
+            </h1>
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">

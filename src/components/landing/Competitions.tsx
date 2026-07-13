@@ -144,16 +144,37 @@ export function Competitions() {
   // Inisialisasi posisi scroll di tengah (replika 3)
   useEffect(() => {
     if (competitions.length > 0 && carouselRef.current) {
-      setTimeout(() => {
-        if (carouselRef.current) {
-          const scrollWidth = carouselRef.current.scrollWidth;
+      let isInitialized = false;
+      const el = carouselRef.current;
+      
+      const centerCarousel = () => {
+        const scrollWidth = el.scrollWidth;
+        // ScrollWidth bisa jadi 0 atau sangat kecil jika belum di-render sempurna
+        if (scrollWidth > window.innerWidth && !isInitialized) {
           const segmentWidth = scrollWidth / 5;
-          carouselRef.current.style.scrollSnapType = 'none';
-          carouselRef.current.scrollLeft = segmentWidth * 2;
-          void carouselRef.current.offsetWidth;
-          carouselRef.current.style.scrollSnapType = 'x mandatory';
+          el.style.scrollSnapType = 'none';
+          el.scrollLeft = segmentWidth * 2;
+          void el.offsetWidth; // Paksa reflow
+          el.style.scrollSnapType = 'x mandatory';
+          
+          if (el.scrollLeft > 0) {
+            isInitialized = true;
+          }
         }
-      }, 100);
+      };
+
+      // Coba langsung jalankan
+      centerCarousel();
+
+      // Gunakan ResizeObserver untuk menangkap momen ketika layout/image selesai dirender
+      const observer = new ResizeObserver(() => {
+        if (!isInitialized) {
+          centerCarousel();
+        }
+      });
+      observer.observe(el);
+
+      return () => observer.disconnect();
     }
   }, [competitions]);
 
