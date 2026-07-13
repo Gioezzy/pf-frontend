@@ -29,8 +29,8 @@ export function SiteHeader() {
             orientation="vertical"
             className="mx-2 h-4 data-[orientation=vertical]:self-auto"
           />
-          <Link href="/admin/dashboard">
-            <h1 className="text-base font-medium hover:text-blue-600 transition-colors cursor-pointer">
+          <Link href={profile?.role === "ADMIN" ? "/admin/dashboard" : profile?.role === "COMMITTEE" ? "/committee/dashboard" : profile?.role === "TREASURER" ? "/treasurer/dashboard" : "/dashboard"}>
+            <h1 className="text-sm sm:text-base font-medium hover:text-blue-600 transition-colors cursor-pointer truncate max-w-[150px] sm:max-w-xs">
               Dashboard {roleDisplay}
             </h1>
           </Link>
